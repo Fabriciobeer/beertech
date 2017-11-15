@@ -4,7 +4,11 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
    root 'plainpage#index'
-
+  get 'plainpage/index2', to: 'plainpage#index2'
+  get 'plainpage/index3', to: 'plainpage#index3'
+  get 'plainpage/form', to: 'plainpage#form'
+  get 'plainpage/form_advanced', to: 'plainpage#form_advanced'
+  
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

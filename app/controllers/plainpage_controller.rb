@@ -7,4 +7,20 @@ class PlainpageController < ApplicationController
     #flash[:danger ] = "Naomi let the dog out!"
   end
 
+  def index2
+    
+  end
+  
+  def index3
+    
+  end
+  
+  def form
+    
+  end
+
+  def form_advanced
+    
+  end
+  
 end

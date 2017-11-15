@@ -36,8 +36,30 @@
 //= require js/chartjs/chart.min.js
 
 //= require js/pace/pace.min.js
+//= require js/sparkline/jquery.sparkline.min.js
+//= require js/moris/morris.min.js
+//= require js/moris/raphael-min.js
+//= require js/skycons/skycons.min.js
+//= require js/gauge/gauge.min.js
+//= require js/textarea/autosize.min.js
+//= require js/switchery/switchery.min.js
+//= require js/autocomplete/countries.js
+//= require js/autocomplete/jquery.autocomplete.js
+//= require js/select/select2.full.js
+//= require js/tags/jquery.tagsinput.min.js
+//= require js/validator/validator.js
+//= require js/parsley/parsley.min.js
+//= require js/editor/bootstrap-wysiwyg.js
+//= require js/input_mask/jquery.inputmask.js
+//= require js/ion_range/ion.rangeSlider.min.js
+//= require js/knob/jquery.knob.min.js
+//= require js/cropping/cropper.min.js
+//= require js/cropping/main.js
+//= require js/cropping/main2.js
+//= require js/colorpicker/bootstrap-colorpicker.min.js
+//= require js/colorpicker/docs.js
 
-//= require  js/nprogress.js
+//= require js/nprogress.js
 
 //= require flash.js
 
