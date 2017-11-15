@@ -58,6 +58,35 @@
 //= require js/cropping/main2.js
 //= require js/colorpicker/bootstrap-colorpicker.min.js
 //= require js/colorpicker/docs.js
+//= require js/wizard/jquery.smartWizard.js
+//= require js/notify/pnotify.buttons.js
+//= require js/notify/pnotify.core.js
+//= require js/notify/pnotify.nonblock.js
+//= require js/easypie/jquery.easypiechart.min.js
+//= require js/calendar/fullcalendar.min.js
+
+//= require js/datatables/jquery.dataTables.min.js
+//= require js/datatables/dataTables.bootstrap.js
+//= require js/datatables/dataTables.buttons.min.js
+//= require js/datatables/dataTables.fixedHeader.min.js
+//= require js/datatables/dataTables.keyTable.min.js
+//= require js/datatables/dataTables.responsive.min.js
+//= require js/datatables/dataTables.scroller.min.js
+//= require js/datatables/buttons.bootstrap.min.js
+//= require js/datatables/buttons.html5.min.js
+//= require js/datatables/buttons.print.min.js
+//= require js/datatables/jszip.min.js
+//= require js/datatables/pdfmake.min.js
+//= require js/datatables/responsive.bootstrap.min.js
+//= require js/datatables/vfs_fonts.js
+
+
+//= require js/echart/echarts-all.js
+//= require js/echart/green.js
+//= require js/maps/gdp-data.js
+//= require js/maps/jquery-jvectormap-2.0.3.min.js
+//= require js/maps/jquery-jvectormap-us-aea-en.js
+//= require js/maps/jquery-jvectormap-world-mill-en.js
 
 //= require js/nprogress.js
 
