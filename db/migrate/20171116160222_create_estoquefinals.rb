@@ -1,8 +1,8 @@
 class CreateEstoquefinals < ActiveRecord::Migration
   def change
     create_table :estoquefinals do |t|
-      t.integer :id_item
-      t.integer :id_cervejaria
+      t.integer :item_id
+      t.integer :cliente_id
       t.integer :quantidade_atual
       t.string :destino
 

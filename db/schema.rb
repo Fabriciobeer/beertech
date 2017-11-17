@@ -14,11 +14,11 @@
 ActiveRecord::Schema.define(version: 20171116202234) do
 
   create_table "ciclovidas", force: :cascade do |t|
-    t.integer  "id_cervejaria"
-    t.integer  "id_item"
+    t.integer  "cliente_id"
+    t.integer  "item_id"
     t.integer  "localizacao"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "clientes", force: :cascade do |t|
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20171116202234) do
   end
 
   create_table "estoquefinals", force: :cascade do |t|
-    t.integer  "id_item"
-    t.integer  "id_cervejaria"
+    t.integer  "item_id"
+    t.integer  "cliente_id"
     t.integer  "quantidade_atual"
     t.string   "destino"
     t.datetime "created_at",       null: false
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20171116202234) do
   end
 
   create_table "estoquemps", force: :cascade do |t|
-    t.integer  "id_cervejaria"
+    t.integer  "cliente_id"
     t.string   "item"
     t.integer  "quantidade_atual"
     t.string   "destino"
@@ -52,13 +52,13 @@ ActiveRecord::Schema.define(version: 20171116202234) do
   create_table "items", force: :cascade do |t|
     t.string   "item"
     t.integer  "barcode"
-    t.integer  "id_cervejaria"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.integer  "cliente_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pagamentos", force: :cascade do |t|
-    t.integer  "id_cervejaria"
+    t.integer  "cliente_id"
     t.integer  "total_pagar"
     t.string   "pagamento_realizado"
     t.datetime "data_proximo_pagamento"
