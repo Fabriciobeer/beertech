@@ -4,7 +4,7 @@ class CreateEstoquemps < ActiveRecord::Migration
       t.integer :cliente_id
       t.string :item
       t.integer :quantidade_atual
-      t.string :destino
+      t.string :fornecedor
 
       t.timestamps null: false
     end
