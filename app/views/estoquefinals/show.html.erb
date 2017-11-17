@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id item:</strong>
+  <%= @estoquefinal.id_item %>
+</p>
+
+<p>
+  <strong>Id cervejaria:</strong>
+  <%= @estoquefinal.id_cervejaria %>
+</p>
+
+<p>
+  <strong>Quantidade atual:</strong>
+  <%= @estoquefinal.quantidade_atual %>
+</p>
+
+<p>
+  <strong>Destino:</strong>
+  <%= @estoquefinal.destino %>
+</p>
+
+<%= link_to 'Edit', edit_estoquefinal_path(@estoquefinal) %> |
+<%= link_to 'Back', estoquefinals_path %>

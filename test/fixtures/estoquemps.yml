@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_cervejaria: 1
+  item: MyString
+  quantidade_atual: 1
+  destino: MyString
+
+two:
+  id_cervejaria: 1
+  item: MyString
+  quantidade_atual: 1
+  destino: MyString

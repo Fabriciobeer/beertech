@@ -1,0 +1,33 @@
+<%= form_for(@estoquefinal) do |f| %>
+  <% if @estoquefinal.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@estoquefinal.errors.count, "error") %> prohibited this estoquefinal from being saved:</h2>
+
+      <ul>
+      <% @estoquefinal.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :id_item %><br>
+    <%= f.number_field :id_item %>
+  </div>
+  <div class="field">
+    <%= f.label :id_cervejaria %><br>
+    <%= f.number_field :id_cervejaria %>
+  </div>
+  <div class="field">
+    <%= f.label :quantidade_atual %><br>
+    <%= f.number_field :quantidade_atual %>
+  </div>
+  <div class="field">
+    <%= f.label :destino %><br>
+    <%= f.text_field :destino %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

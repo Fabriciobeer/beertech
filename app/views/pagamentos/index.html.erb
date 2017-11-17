@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Pagamentos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id cervejaria</th>
+      <th>Total pagar</th>
+      <th>Pagamento realizado</th>
+      <th>Data proximo pagamento</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pagamentos.each do |pagamento| %>
+      <tr>
+        <td><%= pagamento.id_cervejaria %></td>
+        <td><%= pagamento.total_pagar %></td>
+        <td><%= pagamento.pagamento_realizado %></td>
+        <td><%= pagamento.data_proximo_pagamento %></td>
+        <td><%= link_to 'Show', pagamento %></td>
+        <td><%= link_to 'Edit', edit_pagamento_path(pagamento) %></td>
+        <td><%= link_to 'Destroy', pagamento, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Pagamento', new_pagamento_path %>

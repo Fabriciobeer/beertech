@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nome cervejaria:</strong>
+  <%= @cliente.nome_cervejaria %>
+</p>
+
+<p>
+  <strong>Cnpj:</strong>
+  <%= @cliente.CNPJ %>
+</p>
+
+<p>
+  <strong>Estoque mp:</strong>
+  <%= @cliente.estoque_mp %>
+</p>
+
+<p>
+  <strong>Estoque final:</strong>
+  <%= @cliente.estoque_final %>
+</p>
+
+<p>
+  <strong>Ciclo vida barril:</strong>
+  <%= @cliente.ciclo_vida_barril %>
+</p>
+
+<%= link_to 'Edit', edit_cliente_path(@cliente) %> |
+<%= link_to 'Back', clientes_path %>

@@ -1,0 +1,29 @@
+<%= form_for(@ciclovida) do |f| %>
+  <% if @ciclovida.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ciclovida.errors.count, "error") %> prohibited this ciclovida from being saved:</h2>
+
+      <ul>
+      <% @ciclovida.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :id_cervejaria %><br>
+    <%= f.number_field :id_cervejaria %>
+  </div>
+  <div class="field">
+    <%= f.label :id_item %><br>
+    <%= f.number_field :id_item %>
+  </div>
+  <div class="field">
+    <%= f.label :localizacao %><br>
+    <%= f.number_field :localizacao %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

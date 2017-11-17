@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id cervejaria:</strong>
+  <%= @pagamento.id_cervejaria %>
+</p>
+
+<p>
+  <strong>Total pagar:</strong>
+  <%= @pagamento.total_pagar %>
+</p>
+
+<p>
+  <strong>Pagamento realizado:</strong>
+  <%= @pagamento.pagamento_realizado %>
+</p>
+
+<p>
+  <strong>Data proximo pagamento:</strong>
+  <%= @pagamento.data_proximo_pagamento %>
+</p>
+
+<%= link_to 'Edit', edit_pagamento_path(@pagamento) %> |
+<%= link_to 'Back', pagamentos_path %>

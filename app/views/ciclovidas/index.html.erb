@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Ciclovidas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id cervejaria</th>
+      <th>Id item</th>
+      <th>Localizacao</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ciclovidas.each do |ciclovida| %>
+      <tr>
+        <td><%= ciclovida.id_cervejaria %></td>
+        <td><%= ciclovida.id_item %></td>
+        <td><%= ciclovida.localizacao %></td>
+        <td><%= link_to 'Show', ciclovida %></td>
+        <td><%= link_to 'Edit', edit_ciclovida_path(ciclovida) %></td>
+        <td><%= link_to 'Destroy', ciclovida, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ciclovida', new_ciclovida_path %>

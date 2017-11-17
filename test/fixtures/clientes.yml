@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome_cervejaria: MyString
+  CNPJ: 1
+  estoque_mp: MyString
+  estoque_final: MyString
+  ciclo_vida_barril: MyString
+
+two:
+  nome_cervejaria: MyString
+  CNPJ: 1
+  estoque_mp: MyString
+  estoque_final: MyString
+  ciclo_vida_barril: MyString

@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
+  resources :users
+  resources :users
+  resources :users
+  resources :items
+  resources :ciclovidas
+  resources :estoquefinals
+  resources :estoquemps
+  resources :pagamentos
+  resources :clientes
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'plainpage#index'
+  root 'plainpage#index'
   get 'plainpage/index2', to: 'plainpage#index2'
   get 'plainpage/index3', to: 'plainpage#index3'
   get 'plainpage/form', to: 'plainpage#form'
@@ -29,6 +38,7 @@ Rails.application.routes.draw do
   get 'plainpage/echarts', to: 'plainpage#echarts'
   get 'plainpage/other_charts', to: 'plainpage#other_charts'
   
+  resources :users
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

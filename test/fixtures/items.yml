@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: MyString
+  barcode: 1
+  id_cervejaria: 1
+
+two:
+  item: MyString
+  barcode: 1
+  id_cervejaria: 1

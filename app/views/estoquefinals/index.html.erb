@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Estoquefinals</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id item</th>
+      <th>Id cervejaria</th>
+      <th>Quantidade atual</th>
+      <th>Destino</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @estoquefinals.each do |estoquefinal| %>
+      <tr>
+        <td><%= estoquefinal.id_item %></td>
+        <td><%= estoquefinal.id_cervejaria %></td>
+        <td><%= estoquefinal.quantidade_atual %></td>
+        <td><%= estoquefinal.destino %></td>
+        <td><%= link_to 'Show', estoquefinal %></td>
+        <td><%= link_to 'Edit', edit_estoquefinal_path(estoquefinal) %></td>
+        <td><%= link_to 'Destroy', estoquefinal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Estoquefinal', new_estoquefinal_path %>

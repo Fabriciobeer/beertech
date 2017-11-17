@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_cervejaria: 1
+  total_pagar: 1
+  pagamento_realizado: MyString
+  data_proximo_pagamento: 2017-11-16 15:57:25
+
+two:
+  id_cervejaria: 1
+  total_pagar: 1
+  pagamento_realizado: MyString
+  data_proximo_pagamento: 2017-11-16 15:57:25
