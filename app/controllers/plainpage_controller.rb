@@ -3,7 +3,7 @@ class PlainpageController < ApplicationController
   def index
     
     
-    flash[:success ] = "Success Flash Message: Welcome to BeerTech"
+    #flash[:success ] = "Success Flash Message: Welcome to BeerTech"
     #other alternatives are
     # flash[:warn ] = "Israel don't quite like warnings"
     #flash[:danger ] = "Naomi let the dog out!"
@@ -11,11 +11,21 @@ class PlainpageController < ApplicationController
   end
 
   def index2
-    
+    if current_user.cliente.estoque_mp != "Sim"
+
+    flash[:danger] = "Você não tem permissão para isso"
+
+    redirect_to root_path
+    end
   end
   
   def index3
-    
+    if current_user.cliente.estoque_mp != "Sim"
+
+    flash[:danger] = "Você não tem permissão para isso"
+
+    redirect_to root_path
+    end
   end
   
   def form

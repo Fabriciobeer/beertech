@@ -13,29 +13,43 @@
 
       <!-- sidebar menu -->
       <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-
         <div class="menu_section">
-          <h3>Menu</h3>
+          
           <ul class="nav side-menu">
-            <li><a><i class="fa fa-home"></i> Serviço 1: Estoque de matéria prima <span class="fa fa-chevron-down"></span></a>
+            <li><%= link_to "Dashboard", plainpage_index_path, :class => "fa fa-tachometer" %></li>
+          </ul>
+        </div>
+            
+        <div class="menu_section">
+          
+          <ul class="nav side-menu">
+          <% if logged_in? && (current_user.cliente.estoque_mp == "Sim") %>  
+            <li><a><i class="fa fa-line-chart"></i> Serviço 1: Estoque de matéria prima <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
-                <li><%= link_to "Dashboard", root_path %>
+                
+                 <li><%= link_to "Estoque atual", plainpage_index2_path %>
                 </li>
-                 <li><%= link_to "Index2", plainpage_index2_path %>
+                <li><%= link_to "Análise", plainpage_index3_path %>
                 </li>
-                <li><%= link_to "Index3", plainpage_index3_path %>
+                <li><%= link_to "Entrada de produto", plainpage_index3_path %>
+                </li>
+                <li><%= link_to "Saída de produto", plainpage_index3_path %>
+                </li>
+                <li><%= link_to "Cadastro de novo item", plainpage_index3_path %>
                 </li>
               </ul>
             </li>
+          <% end %>
+          <% if logged_in? && (current_user.cliente.estoque_final == "Sim") %>
             <li><a><i class="fa fa-edit"></i> Serviço 2: Estoque de produtos finalizados <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
-                <li><%= link_to "Form geral", plainpage_form_path %>
+                <li><%= link_to "Estoque atual", plainpage_form_path %>
                 </li>
                 <li><%= link_to "Form avançado", plainpage_form_advanced_path %>
                 </li>
-                <li><%= link_to "Form validação", plainpage_form_validation_path %>
+                <li><%= link_to "Análise", plainpage_form_validation_path %>
                 </li>
-                <li><%= link_to "Form wizard", plainpage_form_wizard_path %>
+                <li><%= link_to "Saída de produtos", plainpage_form_wizard_path %>
                 </li>
                 <li><%= link_to "Form upload", plainpage_form_upload_path %>
                 </li>
@@ -43,7 +57,9 @@
                 </li>
               </ul>
             </li>
-            <li><a><i class="fa fa-desktop"></i> Serviço 3: Ciclo de vida de barris <span class="fa fa-chevron-down"></span></a>
+          <% end %>
+          <% if logged_in? && (current_user.cliente.ciclo_vida_barril == "Sim") %>
+            <li><a><i class="fa fa-barcode"></i> Serviço 3: Ciclo de vida de barris <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
                 <li><%= link_to "General Elements", plainpage_general_elements_path %>
                 </li>
@@ -65,6 +81,28 @@
                 </li>
               </ul>
             </li>
+          <% end %>
+          <% if logged_in? && (current_user.nivel_usuario == "admin") %>
+            <li><a><i class="fa fa-cog"></i> Admin <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu" style="display: none">
+                
+                 <li><%= link_to "Criar novo usuário", plainpage_index2_path %>
+                </li>
+                <li><%= link_to "Lista de usuários", plainpage_index3_path %>
+                </li>
+                <li><%= link_to "Serviços", plainpage_index3_path %>
+                </li>
+                <li><%= link_to "Conta", plainpage_index3_path %>
+                </li>
+                <li><%= link_to "Cadastro de receita", plainpage_index3_path %>
+                </li>
+                <li><%= link_to "Editar receita", plainpage_index3_path %>
+                </li>
+                <li><%= link_to "Visualização de receitas", plainpage_index3_path %>
+                </li>
+              </ul>
+            </li>
+          <% end %>
             <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
                 <li><%= link_to "tables", plainpage_tables_path %>
@@ -93,7 +131,7 @@
             
             
             
-            <li><%= link_to "Logout", logout_path, method: :delete %>
+            <li><%= link_to 'Logout', logout_path, method: :delete %>
             </li>
           </ul>
         </div>

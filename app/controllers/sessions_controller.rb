@@ -1,14 +1,14 @@
 class SessionsController < ApplicationController
 
 def new
-    redirect_to root_path if logged_in?
+    redirect_to plainpage_index_path if logged_in?
 end
 
 def create
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
         session[:user_id] = user.id
-        flash[:success] = "You have successfully logged in"
+        flash[:success] = "Você logou com sucesso"
         redirect_to plainpage_index_path
     else
         flash.now[:danger] = "As informações de login não estão corretas"

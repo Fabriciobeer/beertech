@@ -32,9 +32,10 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-     if @user.new_record? 
+    if @user.new_record? && !logged_in?
           @user.cliente = Cliente.last 
-      end 
+          @user.nivel_usuario = "admin"
+    end 
     respond_to do |format|
       if @user.save
         format.html { redirect_to root_path, notice: 'Usuário criado com sucesso!' }
@@ -83,7 +84,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:nome, :sobrenome, :email, :password_digest, :username, :nivel_usuario, :cliente_id)
+      params.require(:user).permit(:nome, :sobrenome, :email, :password, :username, :nivel_usuario, :cliente_id)
     end
     
 end
