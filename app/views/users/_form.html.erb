@@ -1,45 +1,55 @@
-<%= form_for(@user) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<body style="background:#F7F7F7;">
 
-      <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+  <div id="wrapper">
+    <div id="login" class="animate form">
+      <h1 align="center">Sign up</h1>
+      <%= form_for(@user, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+        <% if @user.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+            <ul>
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+  
+  
+        <div>
+          <%= f.label :Nome %><br>
+          <%= f.text_field :nome, class: "form-control", placeholder: "Nome", autofocus: true %>
+        </div>
+        <div>
+          <%= f.label :Sobrenome %><br>
+          <%= f.text_field :sobrenome, class: "form-control", placeholder: "Sobrenome", autofocus: true %>
+        </div>
+        <div>
+          <%= f.label :Email %><br>
+          <%= f.text_field :email, class: "form-control", placeholder: "Email", autofocus: true %>
+        </div>
+        <div>
+          <%= f.label :Senha %><br>
+          <%= f.text_field :password_digest, class: "form-control", placeholder: "Senha", autofocus: true %>
+        </div>
+        
+        </br>
+        <div class="actions">
+          <%= f.submit(@user.new_record? ? "Sign up" : "Update account", class: 'btn btn-primary btn-lg') %>
+          <% if @user.new_record? %>
+            <%= link_to 'Voltar', new_cliente_path, :class => "btn btn-link btn-lg", :method => "get" %>
+          <% else %>
+            <%= link_to 'Cancelar', index_path, :class => "btn btn-link btn-lg", :method => "get" %>
+          <% end %>
+        </div>
+        <div class="clearfix"></div>
+        <div class="separator">
+          <div>
+            <h1><i class="title" style="font-size: 26px;"></i> BeerTech</h1>
+            <p>©2017 All rights reserved. Beertech </p>
+          </div>
+        </div>
       <% end %>
-      </ul>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :nome %><br>
-    <%= f.text_field :nome %>
   </div>
-  <div class="field">
-    <%= f.label :sobrenome %><br>
-    <%= f.text_field :sobrenome %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :password_digest %><br>
-    <%= f.text_field :password_digest %>
-  </div>
-  <div class="field">
-    <%= f.label :username %><br>
-    <%= f.text_field :username %>
-  </div>
-  <div class="field">
-    <%= f.label :nivel_usuario %><br>
-    <%= f.text_field :nivel_usuario %>
-  </div>
-  <div class="field">
-    <%= f.label :cliente_id %><br>
-    <%= f.number_field :cliente_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</body>

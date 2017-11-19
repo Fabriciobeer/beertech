@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  
 
   # GET /users
   # GET /users.json
@@ -16,25 +17,38 @@ class UsersController < ApplicationController
   def new
     @user = User.new
   end
+  
+  #alterar aqui para admin inserir novos usuários
+  def new2
+    
+  end
 
   # GET /users/1/edit
   def edit
+    
   end
 
   # POST /users
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+     if @user.new_record? 
+          @user.cliente = Cliente.last 
+      end 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to @user, notice: 'Usuário criado com sucesso!' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  #alterar aqui para admin criar novos usuários
+  def create_new_user_from_admin
+    
   end
 
   # PATCH/PUT /users/1
@@ -71,4 +85,5 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:nome, :sobrenome, :email, :password_digest, :username, :nivel_usuario, :cliente_id)
     end
+    
 end

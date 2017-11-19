@@ -1,37 +1,57 @@
-<%= form_for(@cliente) do |f| %>
-  <% if @cliente.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@cliente.errors.count, "error") %> prohibited this cliente from being saved:</h2>
+<body style="background:#F7F7F7;">
 
-      <ul>
-      <% @cliente.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+  <div id="wrapper">
+    <div id="login" class="animate form">
+      <h1 align="center">Sign up</h1>
+      <%= form_for(@cliente, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+        <% if @cliente.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@cliente.errors.count, "error") %> prohibited this cliente from being saved:</h2>
+            <ul>
+              <% @cliente.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        
+        <div>
+          <%= f.label :Nome_da_cervejaria %><br>
+          <%= f.text_field :nome_cervejaria, class: "form-control", placeholder: "Cervejaria", autofocus: true %>
+        </div>
+        <div>
+          <%= f.label :CNPJ_da_cervejaria %><br>
+          <%= f.text_field :CNPJ, class: "form-control", placeholder: "CNPJ", autofocus: true %>
+        </div>
+        <div>
+          <%= f.label :Deseja_estoque_de_materia_prima_? %><br>
+          <%= f.select :estoque_mp, ['Sim', 'Não']%>
+        </div>
+        <div>
+          <%= f.label :Estoque_de_produtos_finalizados %><br>
+          <%= f.select :estoque_final, ['Sim', 'Não'] %>
+        </div>
+        <div>
+          <%= f.label :Ciclo_de_vida_de_barris %><br>
+          <%= f.select :ciclo_vida_barril, ['Sim', 'Não'] %>
+        </div>
+        <br/>
+        <div class="actions">
+          <%= f.submit "Criar usuário", class: 'btn btn-primary btn-lg' %>
+          <%= link_to 'Voltar', root_path, :class => "btn btn-link btn-lg", :method => "get" %>
+        </div>
+        <div class="clearfix"></div>
+        <div class="separator">
+          <div>
+            
+            <h1><i class="title" style="font-size: 26px;"></i> BeerTech</h1>
+
+            <p>©2017 All rights reserved. Beertech </p>
+          </div>
+        </div>
       <% end %>
-      </ul>
+      
     </div>
-  <% end %>
+  </div>
 
-  <div class="field">
-    <%= f.label :nome_cervejaria %><br>
-    <%= f.text_field :nome_cervejaria %>
-  </div>
-  <div class="field">
-    <%= f.label :CNPJ %><br>
-    <%= f.number_field :CNPJ %>
-  </div>
-  <div class="field">
-    <%= f.label :estoque_mp %><br>
-    <%= f.text_field :estoque_mp %>
-  </div>
-  <div class="field">
-    <%= f.label :estoque_final %><br>
-    <%= f.text_field :estoque_final %>
-  </div>
-  <div class="field">
-    <%= f.label :ciclo_vida_barril %><br>
-    <%= f.text_field :ciclo_vida_barril %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</body>

@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'plainpage#index'
+  root 'sessions#new'
+  get 'plainpage/index', to: 'plainpage#index'
   get 'plainpage/index2', to: 'plainpage#index2'
   get 'plainpage/index3', to: 'plainpage#index3'
   get 'plainpage/form', to: 'plainpage#form'
@@ -39,6 +40,19 @@ Rails.application.routes.draw do
   get 'plainpage/other_charts', to: 'plainpage#other_charts'
   
   resources :users
+  resources :clientes, except: [:new]
+  resources :estoquefinals
+  resources :estoquemps
+  resources :pagamentos
+  resources :items
+  resources :ciclovidas
+  
+  get 'signup', to: 'clientes#new'
+  get 'criarsegundouser', to: 'users#new2'
+  
+ # get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

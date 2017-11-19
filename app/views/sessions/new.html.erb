@@ -1,0 +1,51 @@
+<body style="background:#F7F7F7;">
+
+    <div id="wrapper">
+      <div id="login" class="animate form">
+            <h1 align="center">Login</h1>
+            <%= form_for(:session, :html => {class: "form-horizontal", role: "form"}, url: login_path) do |f| %>
+            <div>
+                <%= f.label :Email %>
+                <%= f.email_field :email, class: "form-control", placeholder: "Email", autofocus: true %>
+            </div>
+            <div>
+                <%= f.label :Senha %>
+                <%= f.password_field :password, class: "form-control", placeholder: "Password", autocomplete: "off" %>
+            </div>
+            <div>
+                
+                <%= f.submit "Log in", class: 'btn btn-primary btn-lg' %>
+                
+               <%= link_to "Novo usuário", signup_path, :class => "btn btn-link btn-lg", :method => "get" %>
+               
+              
+             <!-- <a class="reset_pass" href="#">Lost your password?</a>-->
+            </div>
+            <div class="clearfix"></div>
+            <div class="separator">
+
+             <!-- <p class="change_link">New to site?
+                <a href="#toregister" class="to_register"> Create Account </a>
+              </p>
+              <div class="clearfix"></div>
+              <br />-->
+              <div>
+                <h1><i class="title" style="font-size: 26px;"></i> BeerTech</h1>
+
+                <p>©2017 All rights reserved. Beertech </p>
+              </div>
+            </div>
+          <% end %>
+          <!-- form -->
+        
+        <!-- content -->
+      </div>
+      
+    </div>
+
+
+</body>
+
+
+
+

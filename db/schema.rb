@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20171116202234) do
 
   create_table "clientes", force: :cascade do |t|
     t.string   "nome_cervejaria"
-    t.integer  "CNPJ"
+    t.string   "CNPJ"
     t.string   "estoque_mp"
     t.string   "estoque_final"
     t.string   "ciclo_vida_barril"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20171116202234) do
     t.integer  "cliente_id"
     t.string   "item"
     t.integer  "quantidade_atual"
-    t.string   "destino"
+    t.string   "fornecedor"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
