@@ -9,7 +9,7 @@ def create
     if user && user.authenticate(params[:session][:password])
         session[:user_id] = user.id
         flash[:success] = "You have successfully logged in"
-        redirect_to dashboard_path
+        redirect_to plainpage_index_path
     else
         flash.now[:danger] = "As informações de login não estão corretas"
         render 'new'
