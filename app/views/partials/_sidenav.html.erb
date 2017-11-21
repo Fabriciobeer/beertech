@@ -27,13 +27,11 @@
             <li><a><i class="fa fa-line-chart"></i> Serviço 1: Estoque de matéria prima <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
                 
-                 <li><%= link_to "Estoque atual", plainpage_index2_path %>
+                <li><%= link_to "Estoque atual", estoquemp_path(id: current_user.cliente_id) %>
+                </li>
+                <li><%= link_to "Atualizar estoque", new_estoquemp_path %>
                 </li>
                 <li><%= link_to "Análise", plainpage_index3_path %>
-                </li>
-                <li><%= link_to "Entrada de produto", plainpage_index3_path %>
-                </li>
-                <li><%= link_to "Saída de produto", plainpage_index3_path %>
                 </li>
                 <li><%= link_to "Cadastro de novo item", plainpage_index3_path %>
                 </li>
@@ -45,11 +43,11 @@
               <ul class="nav child_menu" style="display: none">
                 <li><%= link_to "Estoque atual", plainpage_form_path %>
                 </li>
-                <li><%= link_to "Form avançado", plainpage_form_advanced_path %>
+                <li><%= link_to "Entrada de produtos", plainpage_form_advanced_path %>
                 </li>
-                <li><%= link_to "Análise", plainpage_form_validation_path %>
+                <li><%= link_to "Saída de produtos", plainpage_form_validation_path %>
                 </li>
-                <li><%= link_to "Saída de produtos", plainpage_form_wizard_path %>
+                <li><%= link_to "Análise", plainpage_form_wizard_path %>
                 </li>
                 <li><%= link_to "Form upload", plainpage_form_upload_path %>
                 </li>

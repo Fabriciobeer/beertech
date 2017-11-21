@@ -5,4 +5,5 @@ class Estoquemp < ActiveRecord::Base
     validates :item, presence: true
     validates :quantidade_atual, presence: true
     validates :fornecedor, presence: true
+    validates :atualizar, presence:true
 end

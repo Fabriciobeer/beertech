@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
   resources :users
-  resources :users
-  resources :users
+  resources :clientes, except: [:new]
+  resources :estoquefinals
+  resources :estoquemps, except: [:edit]
+  resources :pagamentos
   resources :items
   resources :ciclovidas
-  resources :estoquefinals
-  resources :estoquemps
-  resources :pagamentos
-  resources :clientes
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -39,14 +37,8 @@ Rails.application.routes.draw do
   get 'plainpage/echarts', to: 'plainpage#echarts'
   get 'plainpage/other_charts', to: 'plainpage#other_charts'
   
-  resources :users
-  resources :clientes, except: [:new]
-  resources :estoquefinals
-  resources :estoquemps
-  resources :pagamentos
-  resources :items
-  resources :ciclovidas
-  
+  get 'saidamp', to: 'estoquemps#edit'
+  get 'estoquemps/saida', to: 'estoquemps#saida'
   get 'signup', to: 'clientes#new'
   get 'criarsegundouser', to: 'users#new2'
   

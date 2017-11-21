@@ -5,6 +5,7 @@ class CreateEstoquemps < ActiveRecord::Migration
       t.string :item
       t.integer :quantidade_atual
       t.string :fornecedor
+      t.string :atualizar
 
       t.timestamps null: false
     end

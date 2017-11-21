@@ -1,8 +1,18 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Nova entrada de matéria prima no estoque</h3>
+      </div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                <div class="x_title">
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Id cervejaria:</strong>
-  <%= @estoquemp.id_cervejaria %>
+  <strong>Nome cervejaria:</strong>
+  <%= @estoquemp.cliente.nome_cervejaria %>
 </p>
 
 <p>
@@ -17,8 +27,11 @@
 
 <p>
   <strong>Destino:</strong>
-  <%= @estoquemp.destino %>
+  <%= @estoquemp.fornecedor %>
 </p>
-
-<%= link_to 'Edit', edit_estoquemp_path(@estoquemp) %> |
-<%= link_to 'Back', estoquemps_path %>
+</div>
+</div>
+</div>
+  </div>
+  <div class="clearfix"></div>
+</div>

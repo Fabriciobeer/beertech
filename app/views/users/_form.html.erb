@@ -37,7 +37,7 @@
         <div class="actions">
           <%= f.submit(@user.new_record? ? "Sign up" : "Update account", class: 'btn btn-primary btn-lg') %>
           <% if @user.new_record? %>
-            <%= link_to 'Voltar', new_cliente_path, :class => "btn btn-link btn-lg", :method => "get" %>
+            <%= link_to 'Voltar', signup_path, :class => "btn btn-link btn-lg", :method => "get" %>
           <% else %>
             <%= link_to 'Cancelar', index_path, :class => "btn btn-link btn-lg", :method => "get" %>
           <% end %>

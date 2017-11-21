@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20171116202234) do
     t.string   "item"
     t.integer  "quantidade_atual"
     t.string   "fornecedor"
+    t.string   "atualizar"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end

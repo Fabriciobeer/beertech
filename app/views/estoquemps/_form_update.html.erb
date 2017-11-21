@@ -31,21 +31,12 @@
     <%= f.text_field :item, class: "form-control", placeholder: "Nome do item", autofocus: true %>
   </div>
   <div class="field">
-    <%= f.label :Quantidade_atual %><br>
+    <%= f.label :Quantidade_que_saiu_do_estoque %><br>
     <%= f.number_field :quantidade_atual, class: "form-control", placeholder: "#", autofocus: true %>
   </div>
-  <div class="field">
-    <%= f.label :Nome_do_fornecedor %><br>
-    <%= f.text_field :fornecedor, class: "form-control", placeholder: "fornecedor", autofocus: true %>
-  </div>
-  <div class = "field">
-    <%= f.label :Atualizar %><br>
-    <%= f.select :atualizar, ["Entrada","Saída"] %>
-    
-  </div>
-  <br>
+  </br>
   <div class="actions">
-    <%= f.submit "Atualizar estoque", class: 'btn btn-primary btn-lg' %>
+    <%= f.submit "Retirar do estoque", class: 'btn btn-primary btn-lg' %>
   </div>
   <% end %>
 </div>
