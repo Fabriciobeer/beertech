@@ -18,7 +18,22 @@ class EstoquempsController < ApplicationController
   # GET /estoquemps/1.json
   def show
     if logged_in?
+      if Estoquemp.where(cliente_id: current_user.cliente_id, item: @estoquemp.item).empty?
+        redirect_to new_estoquemp_path
+        flash[:danger] = "Você não possui itens em estoque ainda para mostrar. Por favor atualize seu estoque primeiro."
+      end
+      @estoquemp = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item)
       
+      #@estoquemp = 
+    else
+      redirect_to root_path
+    end
+  end
+  
+  def analise1
+    if logged_in?
+      @estoquemp_itens = Estoquemp.uniq.pluck(:item)
+      @estoquemp = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
     else
       redirect_to root_path
     end
