@@ -39,6 +39,60 @@
         
       </div>
     </div>
+    <% array_itens = @estoquemp.map(&:item).uniq %>
+    <% array_itens.each do |itens| %>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><%= itens %></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Variação do estoque por mês</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content" >
+                <canvas id="<%=itens%>variacaoChart"></canvas>
+              </div>
+                
+            </div>
+          </div>
+          
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Consumo de <%= itens %> por mês</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content" >
+                <canvas id="<%=itens%>consumoChart"></canvas>
+              </div>
+                
+            </div>
+          </div>
+          
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Estoque mínimo indicado para <%= itens %></h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content" >
+                <canvas id="<%=itens%>minimoChart"></canvas>
+              </div>
+                
+            </div>
+          </div>
+          
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <% end %>
+          
   </div>
 </div>
 <div class="clearfix"></div>
@@ -126,6 +180,140 @@
         }
       }
     });
+    
+    // Line chart variação itens
+    <% array_itens = @estoquemp.map(&:item).uniq %>
+     <% array_itens.each do |itens| %>
+    var ctx3 = document.getElementById("<%=itens%>variacaoChart");
+     
+    var variacaoChart = new Chart(ctx3, {
+      type: 'line',
+
+          
+      data: {
+        <% meses_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %>
+        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+        datasets: [{
+          label: 'Quantidade de entradas',
+          backgroundColor: "rgba(38, 185, 154, 0.31)",
+          borderColor: "rgba(38, 185, 154, 0.7)",
+          pointBorderColor: "rgba(38, 185, 154, 0.7)",
+          pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointBorderWidth: 1,
+          
+        <% array_itens = @estoquemp.map(&:item).uniq %>
+        <% datai1_array =[] %>
+        <% meses_array.each do |mes| %>
+          <% if mes < 12 %>
+              <% proximo_mes = mes +1 %>
+              <% proximo_ano = Time.current.year %>
+          <% else %>
+            <% proximo_mes = 1 %>
+            <% proximo_ano = Time.current.year + 1 %>
+          <% end %>
+          <% data_i1 = @estoquemp.where("created_at >= ? and created_at < ? and atualizar = ? and item = ?", Time.mktime(Time.current.year, mes), Time.mktime(proximo_ano, proximo_mes), "Entrada", itens).count %>
+          <% datai1_array << data_i1 %>
+        <% end %>
+          data: <%= datai1_array.to_json %>
+        
+        }]
+      },
+
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    <% end %>
+    
+     // Bar chart consumo itens
+    <% array_itens = @estoquemp.map(&:item).uniq %>
+     <% array_itens.each do |itens| %>
+    var ctx3 = document.getElementById("<%=itens%>consumoChart");
+     
+    var consumoChart = new Chart(ctx3, {
+      type: 'bar',
+
+          
+      data: {
+        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+        datasets: [{
+          label: 'Quantidade atual',
+          backgroundColor: "#26B99A",
+        <% array_itens = @estoquemp.map(&:item).uniq %>
+        <% data_array =[] %>
+          <% array_itens.each do |itens| %>
+             <% data = @estoquemp.where(item: itens).order(updated_at: :desc).limit(1).map(&:quantidade_atual) %>
+             <% data_array << data %> 
+             <% data = @estoquemp.where(item: itens).order(updated_at: :desc).limit(2).map(&:quantidade_atual).last %>
+             <% data_array << data %>
+          <% end %>
+          data: <%= data_array.select.with_index { |_, i| i.even? }.collect(&:first).to_json %>
+
+        }]
+      },
+
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    <% end %>
+    
+     // table minimo de estoque itens
+    <% array_itens = @estoquemp.map(&:item).uniq %>
+     <% array_itens.each do |itens| %>
+    var ctx3 = document.getElementById("<%=itens%>minimoChart");
+     
+    var minimoChart = new Chart(ctx3, {
+      type: 'bar',
+
+          
+      data: {
+        labels: <%= raw @estoquemp.map(&:item).uniq.to_json %>,
+        datasets: [{
+          label: 'Quantidade atual',
+          backgroundColor: "#26B99A",
+        <% array_itens = @estoquemp.map(&:item).uniq %>
+        <% data_array =[] %>
+          <% array_itens.each do |itens| %>
+             <% data = @estoquemp.where(item: itens).order(updated_at: :desc).limit(1).map(&:quantidade_atual) %>
+             <% data_array << data %> 
+             <% data = @estoquemp.where(item: itens).order(updated_at: :desc).limit(2).map(&:quantidade_atual).last %>
+             <% data_array << data %>
+          <% end %>
+          data: <%= data_array.select.with_index { |_, i| i.even? }.collect(&:first).to_json %>
+
+        }, {
+          label: 'Quantidade anterior',
+          backgroundColor: "#03586A",
+          data: <%= data_array.select.with_index { |_, i| i.odd? }.to_json %>
+        }]
+      },
+
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    <% end %>
 
 
   </script>
