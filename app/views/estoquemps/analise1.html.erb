@@ -185,7 +185,6 @@
     <% array_itens = @estoquemp.map(&:item).uniq %>
      <% array_itens.each do |itens| %>
     var ctx3 = document.getElementById("<%=itens%>variacaoChart");
-     
     var variacaoChart = new Chart(ctx3, {
       type: 'line',
 
@@ -194,11 +193,11 @@
         <% meses_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %>
         labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
         datasets: [{
-          label: 'Quantidade de entradas',
-          backgroundColor: "rgba(38, 185, 154, 0.31)",
-          borderColor: "rgba(38, 185, 154, 0.7)",
-          pointBorderColor: "rgba(38, 185, 154, 0.7)",
-          pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+          label: 'Quantidade de entradas no mês',
+          backgroundColor: "rgba(38, 225, 154, 0.31)",
+          borderColor: "rgba(38, 225, 154, 0.7)",
+          pointBorderColor: "rgba(38, 225, 154, 0.7)",
+          pointBackgroundColor: "rgba(38, 225, 154, 0.7)",
           pointHoverBackgroundColor: "#fff",
           pointHoverBorderColor: "rgba(220,220,220,1)",
           pointBorderWidth: 1,
@@ -218,6 +217,56 @@
         <% end %>
           data: <%= datai1_array.to_json %>
         
+        }, {
+          label: "Quantidade de saídas no mês",
+          backgroundColor: "rgba(255, 0, 5, 0.3)",
+          borderColor: "rgba(255, 0, 5, 0.3)",
+          pointBorderColor: "rgba(255, 1, 0, 0.7)",
+          pointBackgroundColor: "rgba(255, 1, 0, 0.7)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(151,187,205,1)",
+          pointBorderWidth: 1,
+          <% array_itens = @estoquemp.map(&:item).uniq %>
+        <% datai2_array =[] %>
+        <% meses_array.each do |mes| %>
+          <% if mes < 12 %>
+              <% proximo_mes = mes +1 %>
+              <% proximo_ano = Time.current.year %>
+          <% else %>
+            <% proximo_mes = 1 %>
+            <% proximo_ano = Time.current.year + 1 %>
+          <% end %>
+          <% data_i2 = @estoquemp.where("created_at >= ? and created_at < ? and atualizar = ? and item = ?", Time.mktime(Time.current.year, mes), Time.mktime(proximo_ano, proximo_mes), "Saída", itens).count %>
+          <% datai2_array << data_i2 %>
+        <% end %>
+          data: <%= datai2_array.to_json %>
+        }, {
+          label: "Quantidade ao final do mês no estoque",
+          backgroundColor: "rgba(36, 111, 255, 0.3)",
+          borderColor: "rgba(36, 111, 255, 0.70)",
+          pointBorderColor: "rgba(36, 111, 255, 0.70)",
+          pointBackgroundColor: "rgba(36, 111, 255, 0.70)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(151,187,205,1)",
+          pointBorderWidth: 1,
+          <% array_itens = @estoquemp.map(&:item).uniq %>
+        <% datai3_array =[] %>
+        <% meses_array.each do |mes| %>
+          <% if mes < 12 %>
+              <% proximo_mes = mes +1 %>
+              <% proximo_ano = Time.current.year %>
+          <% else %>
+            <% proximo_mes = 1 %>
+            <% proximo_ano = Time.current.year + 1 %>
+          <% end %>
+          <% data_i3 = @estoquemp.where("created_at >= ? and created_at < ? and item = ?", Time.mktime(Time.current.year, mes), Time.mktime(proximo_ano, proximo_mes), itens).map(&:quantidade_atual).first %>
+          <% if data_i3 == nil %>
+            <% datai3_array << 0 %>
+          <% else %>
+            <% datai3_array << data_i3 %>
+          <% end %>
+        <% end %>
+          data: <%= datai3_array.to_json %>
         }]
       },
 
@@ -236,26 +285,38 @@
      // Bar chart consumo itens
     <% array_itens = @estoquemp.map(&:item).uniq %>
      <% array_itens.each do |itens| %>
-    var ctx3 = document.getElementById("<%=itens%>consumoChart");
+    var ctx4 = document.getElementById("<%=itens%>consumoChart");
      
-    var consumoChart = new Chart(ctx3, {
+    var consumoChart = new Chart(ctx4, {
       type: 'bar',
 
           
       data: {
         labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
         datasets: [{
-          label: 'Quantidade atual',
+          label: 'Quantidade consumida de <%= itens %>',
           backgroundColor: "#26B99A",
+          <% meses_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %>
         <% array_itens = @estoquemp.map(&:item).uniq %>
-        <% data_array =[] %>
-          <% array_itens.each do |itens| %>
-             <% data = @estoquemp.where(item: itens).order(updated_at: :desc).limit(1).map(&:quantidade_atual) %>
-             <% data_array << data %> 
-             <% data = @estoquemp.where(item: itens).order(updated_at: :desc).limit(2).map(&:quantidade_atual).last %>
-             <% data_array << data %>
+        <% datai4_array =[] %>
+        <% meses_array.each do |mes| %>
+          <% if mes < 12 %>
+              <% proximo_mes = mes +1 %>
+              <% proximo_ano = Time.current.year %>
+          <% else %>
+            <% proximo_mes = 1 %>
+            <% proximo_ano = Time.current.year + 1 %>
           <% end %>
-          data: <%= data_array.select.with_index { |_, i| i.even? }.collect(&:first).to_json %>
+          <% data_i4 = @estoquemp.where("created_at >= ? and created_at < ? and atualizar = ? and item = ?", Time.mktime(Time.current.year, mes), Time.mktime(proximo_ano, proximo_mes), "Saída", itens) %>
+          <% if data_i4 != nil %>
+            <% data_soma = data_i4.sum(:quantidade_atual) %>
+            <% datai4_array << data_soma %>
+            
+          <% else %>
+            <% datai4_array << 0 %>
+          <% end %>
+        <% end %>
+          data: <%= datai4_array.to_json %>
 
         }]
       },
