@@ -23,7 +23,7 @@ class EstoquempsController < ApplicationController
         flash[:danger] = "Você não possui itens em estoque ainda para mostrar. Por favor atualize seu estoque primeiro."
       end
       @estoquemp = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item)
-      
+      @estoquempitens = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
       #@estoquemp = 
     else
       redirect_to root_path

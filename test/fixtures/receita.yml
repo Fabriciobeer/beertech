@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cliente_id: 1
+  nome_receita: MyString
+  itens_receita[]: MyText
+  quantidade_usada[]: MyText
+  unidade_receita[]: MyText
+
+two:
+  cliente_id: 1
+  nome_receita: MyString
+  itens_receita[]: MyText
+  quantidade_usada[]: MyText
+  unidade_receita[]: MyText

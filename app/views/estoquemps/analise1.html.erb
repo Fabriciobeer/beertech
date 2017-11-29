@@ -48,7 +48,7 @@
           <div class="clearfix"></div>
         </div>
         <div class="row">
-          <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="x_panel">
               <div class="x_title">
                 <h2>Variação do estoque por mês</h2>
@@ -61,7 +61,7 @@
             </div>
           </div>
           
-          <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="x_panel">
               <div class="x_title">
                 <h2>Consumo de <%= itens %> por mês</h2>
@@ -74,18 +74,8 @@
             </div>
           </div>
           
-          <div class="col-md-4 col-sm-4 col-xs-12">
-            <div class="x_panel">
-              <div class="x_title">
-                <h2>Estoque mínimo indicado para <%= itens %></h2>
-                <div class="clearfix"></div>
-              </div>
-              <div class="x_content" >
-                <canvas id="<%=itens%>minimoChart"></canvas>
-              </div>
-                
-            </div>
-          </div>
+          
+              
           
         </div>
         <div class="clearfix"></div>
@@ -333,50 +323,13 @@
     });
     <% end %>
     
-     // table minimo de estoque itens
-    <% array_itens = @estoquemp.map(&:item).uniq %>
-     <% array_itens.each do |itens| %>
-    var ctx3 = document.getElementById("<%=itens%>minimoChart");
-     
-    var minimoChart = new Chart(ctx3, {
-      type: 'bar',
 
-          
-      data: {
-        labels: <%= raw @estoquemp.map(&:item).uniq.to_json %>,
-        datasets: [{
-          label: 'Quantidade atual',
-          backgroundColor: "#26B99A",
-        <% array_itens = @estoquemp.map(&:item).uniq %>
-        <% data_array =[] %>
-          <% array_itens.each do |itens| %>
-             <% data = @estoquemp.where(item: itens).order(updated_at: :desc).limit(1).map(&:quantidade_atual) %>
-             <% data_array << data %> 
-             <% data = @estoquemp.where(item: itens).order(updated_at: :desc).limit(2).map(&:quantidade_atual).last %>
-             <% data_array << data %>
-          <% end %>
-          data: <%= data_array.select.with_index { |_, i| i.even? }.collect(&:first).to_json %>
-
-        }, {
-          label: 'Quantidade anterior',
-          backgroundColor: "#03586A",
-          data: <%= data_array.select.with_index { |_, i| i.odd? }.to_json %>
-        }]
-      },
-
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
-    });
-    <% end %>
+   
 
 
   </script>
+  
 
+  
+  
         

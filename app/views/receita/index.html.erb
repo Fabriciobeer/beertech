@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Receita</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cliente</th>
+      <th>Nome receita</th>
+      <th>Itens receita[]</th>
+      <th>Quantidade usada[]</th>
+      <th>Unidade receita[]</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @receita.each do |receitum| %>
+      <tr>
+        <td><%= receitum.cliente_id %></td>
+        <td><%= receitum.nome_receita %></td>
+        <td><%= receitum.itens_receita[] %></td>
+        <td><%= receitum.quantidade_usada[] %></td>
+        <td><%= receitum.unidade_receita[] %></td>
+        <td><%= link_to 'Show', receitum %></td>
+        <td><%= link_to 'Edit', edit_receitum_path(receitum) %></td>
+        <td><%= link_to 'Destroy', receitum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Receitum', new_receitum_path %>

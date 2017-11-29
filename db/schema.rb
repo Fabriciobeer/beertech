@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171116202234) do
+ActiveRecord::Schema.define(version: 20171129192117) do
 
   create_table "ciclovidas", force: :cascade do |t|
     t.integer  "cliente_id"
@@ -58,6 +58,15 @@ ActiveRecord::Schema.define(version: 20171116202234) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "materiaprimas", force: :cascade do |t|
+    t.integer  "cliente_id"
+    t.string   "item"
+    t.string   "unidades"
+    t.integer  "tamanho_pacote"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "pagamentos", force: :cascade do |t|
     t.integer  "cliente_id"
     t.integer  "total_pagar"
@@ -65,6 +74,16 @@ ActiveRecord::Schema.define(version: 20171116202234) do
     t.datetime "data_proximo_pagamento"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  create_table "receita", force: :cascade do |t|
+    t.integer  "cliente_id"
+    t.string   "nome_receita"
+    t.text     "itens_receita",    default: "--- []\n"
+    t.text     "quantidade_usada", default: "--- []\n"
+    t.text     "unidade_receita",  default: "--- []\n"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cliente:</strong>
+  <%= @materiaprima.cliente_id %>
+</p>
+
+<p>
+  <strong>Item:</strong>
+  <%= @materiaprima.item %>
+</p>
+
+<p>
+  <strong>Unidades:</strong>
+  <%= @materiaprima.unidades %>
+</p>
+
+<p>
+  <strong>Tamanho pacote:</strong>
+  <%= @materiaprima.tamanho_pacote %>
+</p>
+
+<%= link_to 'Edit', edit_materiaprima_path(@materiaprima) %> |
+<%= link_to 'Back', materiaprimas_path %>

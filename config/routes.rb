@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :receita
+  resources :materiaprimas
   resources :users
   resources :clientes, except: [:new]
   resources :estoquefinals

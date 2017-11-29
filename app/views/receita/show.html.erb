@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cliente:</strong>
+  <%= @receitum.cliente_id %>
+</p>
+
+<p>
+  <strong>Nome receita:</strong>
+  <%= @receitum.nome_receita %>
+</p>
+
+<p>
+  <strong>Itens receita[]:</strong>
+  <%= @receitum.itens_receita[] %>
+</p>
+
+<p>
+  <strong>Quantidade usada[]:</strong>
+  <%= @receitum.quantidade_usada[] %>
+</p>
+
+<p>
+  <strong>Unidade receita[]:</strong>
+  <%= @receitum.unidade_receita[] %>
+</p>
+
+<%= link_to 'Edit', edit_receitum_path(@receitum) %> |
+<%= link_to 'Back', receita_path %>
