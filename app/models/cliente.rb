@@ -5,6 +5,8 @@ class Cliente < ActiveRecord::Base
     has_many :estoquemps
     has_many :ciclovidas
     has_many :items
+    has_many :materiaprimas
+    has_many :receita
     
     VALID_CNPJ_REGEX = /\A(\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2})\z/i
     validates :nome_cervejaria, presence: true, uniqueness: { case_sensitive: false }, length: {minimum:3, maximum:25}
