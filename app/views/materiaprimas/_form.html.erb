@@ -31,7 +31,7 @@
           </div>
           <div class="field">
             <%= f.label :unidade_de_medida %><br>
-            <%= f.select :unidades, ["Kg","grama", "L", "mL", "unidade"] %>
+            <%= f.select :unidades, ["grama", "mL", "unidade"] %>
           </div>
           <div class="field">
             <%= f.label :tamanho_pacote %><br>
@@ -55,7 +55,7 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <table id="datatable-responsive2" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+        <table id="datatable-responsive3" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
           <thead>
             <tr>
               <th>Id</th>
@@ -81,3 +81,65 @@
   </div>
   <div class="clearfix"></div>
 </div>
+<div id="custom_notifications" class="custom-notifications dsp_none">
+          <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+          </ul>
+          <div class="clearfix"></div>
+          <div id="notif-group" class="tabbed_notifications"></div>
+        </div>
+
+
+  <script>
+    var handleDataTableButtons = function() {
+        "use strict";
+        0 !== $("#datatable-buttons").length && $("#datatable-buttons").DataTable({
+          dom: "Bfrtip",
+          buttons: [{
+            extend: "copy",
+            className: "btn-sm"
+          }, {
+            extend: "csv",
+            className: "btn-sm"
+          }, {
+            extend: "excel",
+            className: "btn-sm"
+          }, {
+            extend: "pdf",
+            className: "btn-sm"
+          }, {
+            extend: "print",
+            className: "btn-sm"
+          }],
+          responsive: !0
+        })
+      },
+      TableManageButtons = function() {
+        "use strict";
+        return {
+          init: function() {
+            handleDataTableButtons()
+          }
+        }
+      }();
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#datatable').dataTable();
+      $('#datatable-keytable').DataTable({
+        keys: true
+      });
+      $('#datatable-responsive').DataTable();
+      $('#datatable-responsive3').DataTable();
+      $('#datatable-scroller').DataTable({
+        ajax: "js/datatables/json/scroller-demo.json",
+        deferRender: true,
+        scrollY: 380,
+        scrollCollapse: true,
+        scroller: true
+      });
+      var table = $('#datatable-fixed-header').DataTable({
+        fixedHeader: true
+      });
+    });
+    TableManageButtons.init();
+  </script>

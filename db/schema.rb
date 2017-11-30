@@ -79,11 +79,11 @@ ActiveRecord::Schema.define(version: 20171129192117) do
   create_table "receita", force: :cascade do |t|
     t.integer  "cliente_id"
     t.string   "nome_receita"
-    t.text     "itens_receita",    default: "--- []\n"
-    t.text     "quantidade_usada", default: "--- []\n"
-    t.text     "unidade_receita",  default: "--- []\n"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "itens_receita"
+    t.string   "quantidade_usada"
+    t.string   "unidade_receita"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "users", force: :cascade do |t|

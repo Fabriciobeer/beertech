@@ -3,9 +3,9 @@ class CreateReceita < ActiveRecord::Migration
     create_table :receita do |t|
       t.integer :cliente_id
       t.string :nome_receita
-      t.text :itens_receita, array: true, default: []
-      t.text :quantidade_usada, array: true, default: []
-      t.text :unidade_receita, array: true, default: []
+      t.string :itens_receita
+      t.string :quantidade_usada
+      t.string :unidade_receita
 
       t.timestamps null: false
     end

@@ -24,7 +24,7 @@ class EstoquempsController < ApplicationController
       end
       @estoquemp = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item)
       @estoquempitens = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
-      #@estoquemp = 
+      
     else
       redirect_to root_path
     end
@@ -121,7 +121,12 @@ class EstoquempsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_estoquemp
-      @estoquemp = Estoquemp.find(params[:id])
+      if !Estoquemp.where(cliente_id: current_user.cliente_id).exists?
+        redirect_to root_path
+        flash[:danger] = "Voce não possui itens cadastrados no estoque ainda!"
+      else
+        @estoquemp = Estoquemp.find(params[:id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

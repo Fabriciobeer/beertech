@@ -28,7 +28,11 @@
   </div>
   <div class="field">
     <%= f.label :Item %><br>
-    <%= f.text_field :item, class: "form-control", placeholder: "Nome do item", autofocus: true %>
+    <% materiaprima_array = [] %>
+    <% Materiaprima.where(cliente_id: current_user.cliente_id).each do |materiaprima| %>
+      <% materiaprima_array << materiaprima.item %>
+    <% end %>
+    <%= f.select(:item, materiaprima_array.map { |value| [ value, value ] }) %>
   </div>
   <div class="field">
     <%= f.label :Quantidade_atual %><br>

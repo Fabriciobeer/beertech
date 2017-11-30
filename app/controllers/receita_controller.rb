@@ -14,7 +14,12 @@ class ReceitaController < ApplicationController
 
   # GET /receita/new
   def new
-    @receitum = Receitum.new
+    
+    if logged_in?
+      @receitum = Receitum.new
+    else
+      redirect_to root_path
+    end
   end
 
   # GET /receita/1/edit
@@ -25,10 +30,10 @@ class ReceitaController < ApplicationController
   # POST /receita.json
   def create
     @receitum = Receitum.new(receitum_params)
-
+    @receitum.cliente_id = current_user.cliente_id
     respond_to do |format|
       if @receitum.save
-        format.html { redirect_to @receitum, notice: 'Receitum was successfully created.' }
+        format.html { redirect_to new_receitum_path, notice: 'Receita adicionada com sucesso' }
         format.json { render :show, status: :created, location: @receitum }
       else
         format.html { render :new }
@@ -69,6 +74,6 @@ class ReceitaController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def receitum_params
-      params.require(:receitum).permit(:cliente_id, :nome_receita, :itens_receita[], :quantidade_usada[], :unidade_receita[])
+      params.require(:receitum).permit(:cliente_id, :nome_receita, :itens_receita, :quantidade_usada, :unidade_receita)
     end
 end
