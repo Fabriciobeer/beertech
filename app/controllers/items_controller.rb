@@ -25,10 +25,11 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = Item.new(item_params)
-
+    @item.cliente_id = current_user.cliente_id
+    
     respond_to do |format|
       if @item.save
-        format.html { redirect_to @item, notice: 'Item was successfully created.' }
+        format.html { redirect_to new_item_path, success: 'Item criado com sucesso.'}
         format.json { render :show, status: :created, location: @item }
       else
         format.html { render :new }
@@ -69,6 +70,6 @@ class ItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-      params.require(:item).permit(:item, :barcode, :id_cervejaria)
+      params.require(:item).permit(:item, :barcode, :cliente_id)
     end
 end

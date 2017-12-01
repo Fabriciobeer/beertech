@@ -10,6 +10,17 @@ class EstoquefinalsController < ApplicationController
   # GET /estoquefinals/1
   # GET /estoquefinals/1.json
   def show
+    if logged_in?
+      if Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item.item).empty?
+        redirect_to new_estoquefinal_path
+        flash[:danger] = "Você não possui itens em estoque ainda para mostrar. Por favor atualize seu estoque final primeiro."
+      end
+      @estoquefinal = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item)
+      @estoquefinalitens = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
+      
+    else
+      redirect_to root_path
+    end
   end
 
   # GET /estoquefinals/new
@@ -25,10 +36,11 @@ class EstoquefinalsController < ApplicationController
   # POST /estoquefinals.json
   def create
     @estoquefinal = Estoquefinal.new(estoquefinal_params)
-
+    @estoquefinal.cliente_id = current_user.cliente_id
+    
     respond_to do |format|
       if @estoquefinal.save
-        format.html { redirect_to @estoquefinal, notice: 'Estoquefinal was successfully created.' }
+        format.html { redirect_to new_estoquefinal_path, notice: 'Estoquefinal was successfully created.' }
         format.json { render :show, status: :created, location: @estoquefinal }
       else
         format.html { render :new }
@@ -64,7 +76,13 @@ class EstoquefinalsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_estoquefinal
-      @estoquefinal = Estoquefinal.find(params[:id])
+      if !Estoquefinal.where(cliente_id: current_user.cliente_id).exists?
+        redirect_to root_path
+        flash[:danger] = "Voce não possui itens cadastrados no estoque final ainda!"
+      else
+        @estoquefinal = Estoquefinal.find(params[:id])
+      end
+      
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

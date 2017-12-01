@@ -9,7 +9,7 @@
 <%= form_for(@estoquemp, :html => {class: "form-horizontal", role: "form"}) do |f| %>
   <% if @estoquemp.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@estoquemp.errors.count, "error") %> prohibited this estoquemp from being saved:</h2>
+      <h2><%= pluralize(@estoquemp.errors.count, "erro") %> impediu de ser atualizado:</h2>
 
       <ul>
       <% @estoquemp.errors.full_messages.each do |message| %>
