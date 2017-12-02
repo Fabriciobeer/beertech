@@ -11,11 +11,11 @@ class EstoquefinalsController < ApplicationController
   # GET /estoquefinals/1.json
   def show
     if logged_in?
-      if Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item.item).empty?
+      if Estoquefinal.where(cliente_id: current_user.cliente_id).empty?
         redirect_to new_estoquefinal_path
         flash[:danger] = "Você não possui itens em estoque ainda para mostrar. Por favor atualize seu estoque final primeiro."
       end
-      @estoquefinal = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item)
+      @estoquefinal = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
       @estoquefinalitens = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
       
     else
@@ -38,9 +38,24 @@ class EstoquefinalsController < ApplicationController
     @estoquefinal = Estoquefinal.new(estoquefinal_params)
     @estoquefinal.cliente_id = current_user.cliente_id
     
+    
+    if !Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).empty? && @estoquefinal.atualizar == "Entrada"
+      quantidade_velha = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).last.quantidade_atual
+      quantidade_nova = @estoquefinal.quantidade_atual
+      @estoquefinal.quantidade_atual = quantidade_nova + quantidade_velha
+    end
+  
+  
+    if !Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).empty? && @estoquefinal.atualizar == "Saída"
+      quantidade_velha = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).last.quantidade_atual
+      quantidade_nova = @estoquefinal.quantidade_atual
+      @estoquefinal.quantidade_atual = quantidade_velha - quantidade_nova
+      @estoquefinal.fornecedor = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).last.fornecedor
+    end
+    
     respond_to do |format|
       if @estoquefinal.save
-        format.html { redirect_to new_estoquefinal_path, notice: 'Estoquefinal was successfully created.' }
+        format.html { redirect_to new_estoquefinal_path, notice: 'Estoque final foi atualizado com sucesso' }
         format.json { render :show, status: :created, location: @estoquefinal }
       else
         format.html { render :new }
@@ -87,6 +102,10 @@ class EstoquefinalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def estoquefinal_params
-      params.require(:estoquefinal).permit(:id_item, :id_cervejaria, :quantidade_atual, :destino)
+      params.require(:estoquefinal).permit(:item_id, :cliente_id, :quantidade_atual, :destino, :atualizar)
+    end
+    
+    def outro_param
+      params.require(:estoquefinal).permit(:item)
     end
 end

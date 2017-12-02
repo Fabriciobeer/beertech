@@ -5,39 +5,61 @@
         <h3>Nova entrada de matéria prima no estoque</h3>
       </div>
     </div>
-
-<%= form_for(@estoquefinal) do |f| %>
-  <% if @estoquefinal.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@estoquefinal.errors.count, "error") %> prohibited this estoquefinal from being saved:</h2>
-
-      <ul>
-      <% @estoquefinal.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+    
+    <%= form_for(@estoquefinal) do |f| %>
+      <% if @estoquefinal.errors.any? %>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            
+            <div id="error_explanation">
+              <h2><%= pluralize(@estoquefinal.errors.count, "erros") %> não permitiram o estoque final de ser atualizado: </h2>
+        
+              <ul>
+              <% @estoquefinal.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          
+          </div>
+        </div>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :id_item %><br>
-    <%= f.number_field :id_item %>
+  
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <div class="field">
+              <%= f.label :nome_cervejaria %><br>
+              <input type="text" class="form-control" readonly="readonly" placeholder= <%= current_user.cliente.nome_cervejaria %> >
+            </div>
+            <div class="field">
+              <%= f.label :item_a_ser_atualizado %><br>
+              <% item_array = [] %>
+              <% Item.where(cliente_id: current_user.cliente_id).each do |item| %>
+                <% item_array << item %>
+              <% end %>
+              <%= f.select :item_id, item_array.collect { |value| [ value.item_name, value.id ] } %>
+            </div>
+            <div class="field">
+              <%= f.label :quantidade_atual %><br>
+              <%= f.text_field :quantidade_atual, class: "form-control", placeholder: "Quantidade de entrada/saída", autofocus: true %>
+            </div>
+            <div class="field">
+              <%= f.label :destino %><br>
+              <%= f.text_field :destino, class: "form-control", placeholder: "Destino do produto se estiver saindo da fábrica", autofocus: true %>
+            </div>
+            <div class = "field">
+              <%= f.label :Atualizar %><br>
+              <%= f.select :atualizar, ["Entrada","Saída"] %>
+            </div>
+            <br>
+            <div class="actions">
+              <%= f.submit "Atualizar estoque final", class: 'btn btn-primary btn-lg' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <div class="field">
-    <%= f.label :id_cervejaria %><br>
-    <%= f.number_field :id_cervejaria %>
-  </div>
-  <div class="field">
-    <%= f.label :quantidade_atual %><br>
-    <%= f.number_field :quantidade_atual %>
-  </div>
-  <div class="field">
-    <%= f.label :destino %><br>
-    <%= f.text_field :destino %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
-  </div>
+  <div class="clearfix"></div>
 </div>

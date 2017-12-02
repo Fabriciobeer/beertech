@@ -5,4 +5,5 @@ class Estoquefinal < ActiveRecord::Base
     validates :cliente_id, presence: true
     validates :item_id, presence: true
     validates :quantidade_atual, presence: true
+    validates :atualizar, presence: true
 end
