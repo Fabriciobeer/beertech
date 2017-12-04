@@ -17,7 +17,17 @@ class EstoquefinalsController < ApplicationController
       end
       @estoquefinal = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
       @estoquefinalitens = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
-      
+      @estoquefinalentrada = Estoquefinal.where(cliente_id: current_user.cliente_id, atualizar: "Entrada").order(updated_at: :desc)
+      @estoquefinalsaida = Estoquefinal.where(cliente_id: current_user.cliente_id, atualizar: "Saída").order(updated_at: :desc)
+    else
+      redirect_to root_path
+    end
+  end
+  
+  def analise
+    if logged_in?
+      @estoquefinal_itens = Estoquefinal.uniq.pluck(:item)
+      @estoquefinal = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
     else
       redirect_to root_path
     end
@@ -37,7 +47,7 @@ class EstoquefinalsController < ApplicationController
   def create
     @estoquefinal = Estoquefinal.new(estoquefinal_params)
     @estoquefinal.cliente_id = current_user.cliente_id
-    
+
     
     if !Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).empty? && @estoquefinal.atualizar == "Entrada"
       quantidade_velha = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).last.quantidade_atual
@@ -50,7 +60,6 @@ class EstoquefinalsController < ApplicationController
       quantidade_velha = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).last.quantidade_atual
       quantidade_nova = @estoquefinal.quantidade_atual
       @estoquefinal.quantidade_atual = quantidade_velha - quantidade_nova
-      @estoquefinal.fornecedor = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).last.fornecedor
     end
     
     respond_to do |format|
