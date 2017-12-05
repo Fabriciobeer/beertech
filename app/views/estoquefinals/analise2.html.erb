@@ -1,0 +1,296 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Painel de análises do estoque final da <%= current_user.cliente.nome_cervejaria %></h3>
+      </div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="row">
+              
+                
+                <div class="x_title">
+                  <h2>Situação atual do estoque final</h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content" >
+                  <canvas id="mybarChart"></canvas>
+                </div>
+                
+              
+           
+            
+            
+          </div>
+          <div class="clearfix"></div>
+        
+        
+      </div>
+    </div>
+    <% array_itens = [] %>
+    <% array_itensid = [] %>
+    <% @estoquefinal_itens.each do |estoquefinal| %>
+       <% array_itensid << estoquefinal.item_id %>
+         <% array_itens << estoquefinal.item.item_name %>
+       <% end %>
+    <% array_itens.zip(array_itensid).each do |itens, itensid| %>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><%= itens %></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Variação do estoque por mês</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content" >
+                <canvas id="<%=itensid%>variacaoChart"></canvas>
+              </div>
+                
+            </div>
+          </div>
+          
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Produção de <%= itens %> por mês</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content" >
+                <canvas id="<%=itensid%>consumoChart"></canvas>
+              </div>
+                
+            </div>
+          </div>
+          
+          
+              
+          
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <% end %>
+          
+  </div>
+</div>
+<div class="clearfix"></div>
+
+<div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+</div>
+
+  <script>
+    Chart.defaults.global.legend = {
+      enabled: false
+    };
+
+    // Bar chart itens
+    var ctx1 = document.getElementById("mybarChart");
+    var mybarChart = new Chart(ctx1, {
+      type: 'bar',
+
+          
+      data: {
+         
+      labels: <%= raw array_itens.to_json %>,
+        datasets: [{
+          label: 'Quantidade atual',
+          backgroundColor: "#26B99A",
+        <% array_itensid = @estoquefinal.map(&:item_id).uniq %>
+        <% data_array =[] %>
+          <% array_itensid.each do |itensid| %>
+             <% data = @estoquefinal.where(item_id: itensid).order(updated_at: :desc).limit(1).map(&:quantidade_atual) %>
+             <% data_array << data %> 
+             <% data = @estoquefinal.where(item_id: itensid).order(updated_at: :desc).limit(2).map(&:quantidade_atual).last %>
+             <% data_array << data %>
+          <% end %>
+          data: <%= data_array.select.with_index { |_, i| i.even? }.collect(&:first).to_json %>
+
+        }, {
+          label: 'Quantidade anterior',
+          backgroundColor: "#03586A",
+          data: <%= data_array.select.with_index { |_, i| i.odd? }.to_json %>
+        }]
+      },
+
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    
+
+    
+    // Line chart variação itens
+
+     <% array_itens.zip(array_itensid).each do |itens, itensid| %>
+    var ctx3 = document.getElementById("<%=itensid%>variacaoChart");
+    
+    
+    var variacaoChart = new Chart(ctx3, {
+      type: 'line',
+
+          
+      data: {
+        <% meses_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %>
+        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+        datasets: [{
+          label: 'Quantidade de entradas no mês',
+          backgroundColor: "rgba(38, 225, 154, 0.31)",
+          borderColor: "rgba(38, 225, 154, 0.7)",
+          pointBorderColor: "rgba(38, 225, 154, 0.7)",
+          pointBackgroundColor: "rgba(38, 225, 154, 0.7)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointBorderWidth: 1,
+          
+        <% datai1_array =[] %>
+        <% meses_array.each do |mes| %>
+          <% if mes < 12 %>
+              <% proximo_mes = mes +1 %>
+              <% proximo_ano = Time.current.year %>
+          <% else %>
+            <% proximo_mes = 1 %>
+            <% proximo_ano = Time.current.year + 1 %>
+          <% end %>
+          <% data_i1 = @estoquefinal.where("created_at >= ? and created_at < ? and atualizar = ? and item_id = ?", Time.mktime(Time.current.year, mes), Time.mktime(proximo_ano, proximo_mes), "Entrada", itensid).count %>
+          <% datai1_array << data_i1 %>
+        <% end %>
+          data: <%= datai1_array.to_json %>
+        
+        }, {
+          label: "Quantidade de saídas no mês",
+          backgroundColor: "rgba(255, 0, 5, 0.3)",
+          borderColor: "rgba(255, 0, 5, 0.3)",
+          pointBorderColor: "rgba(255, 1, 0, 0.7)",
+          pointBackgroundColor: "rgba(255, 1, 0, 0.7)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(151,187,205,1)",
+          pointBorderWidth: 1,
+        <% datai2_array =[] %>
+        <% meses_array.each do |mes| %>
+          <% if mes < 12 %>
+              <% proximo_mes = mes +1 %>
+              <% proximo_ano = Time.current.year %>
+          <% else %>
+            <% proximo_mes = 1 %>
+            <% proximo_ano = Time.current.year + 1 %>
+          <% end %>
+          <% data_i2 = @estoquefinal.where("created_at >= ? and created_at < ? and atualizar = ? and item_id = ?", Time.mktime(Time.current.year, mes), Time.mktime(proximo_ano, proximo_mes), "Saída", itensid).count %>
+          <% datai2_array << data_i2 %>
+        <% end %>
+          data: <%= datai2_array.to_json %>
+        }, {
+          label: "Quantidade de produtos ao final do mês no estoque",
+          backgroundColor: "rgba(36, 111, 255, 0.3)",
+          borderColor: "rgba(36, 111, 255, 0.70)",
+          pointBorderColor: "rgba(36, 111, 255, 0.70)",
+          pointBackgroundColor: "rgba(36, 111, 255, 0.70)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(151,187,205,1)",
+          pointBorderWidth: 1,
+        <% datai3_array =[] %>
+        <% meses_array.each do |mes| %>
+          <% if mes < 12 %>
+              <% proximo_mes = mes +1 %>
+              <% proximo_ano = Time.current.year %>
+          <% else %>
+            <% proximo_mes = 1 %>
+            <% proximo_ano = Time.current.year + 1 %>
+          <% end %>
+          <% data_i3 = @estoquefinal.where("created_at >= ? and created_at < ? and item_id = ?", Time.mktime(Time.current.year, mes), Time.mktime(proximo_ano, proximo_mes), itensid).map(&:quantidade_atual).first %>
+          <% if data_i3 == nil %>
+            <% datai3_array << 0 %>
+          <% else %>
+            <% datai3_array << data_i3 %>
+          <% end %>
+        <% end %>
+          data: <%= datai3_array.to_json %>
+        }]
+      },
+
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    <% end %>
+    
+     // Bar chart quantidade produzida por itens
+     <% array_itens.zip(array_itensid).each do |itens, itensid| %>
+    var ctx4 = document.getElementById("<%=itensid%>consumoChart");
+     
+    var consumoChart = new Chart(ctx4, {
+      type: 'bar',
+
+          
+      data: {
+        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+        datasets: [{
+          label: 'Quantidade produzida mês de <%= itens %>',
+          backgroundColor: "#26B99A",
+          <% meses_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %>
+        <% datai4_array =[] %>
+        <% meses_array.each do |mes| %>
+          <% if mes < 12 %>
+              <% proximo_mes = mes +1 %>
+              <% proximo_ano = Time.current.year %>
+          <% else %>
+            <% proximo_mes = 1 %>
+            <% proximo_ano = Time.current.year + 1 %>
+          <% end %>
+          <% data_i4 = @estoquefinal.where("created_at >= ? and created_at < ? and atualizar = ? and item_id = ?", Time.mktime(Time.current.year, mes), Time.mktime(proximo_ano, proximo_mes), "Entrada", itensid) %>
+          <% if data_i4 != nil %>
+            <% data_soma = data_i4.sum(:quantidade_entrada) %>
+            <% datai4_array << data_soma %>
+            
+          <% else %>
+            <% datai4_array << 0 %>
+          <% end %>
+        <% end %>
+          data: <%= datai4_array.to_json %>
+
+        }]
+      },
+
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    <% end %>
+    
+
+   
+
+
+  </script>
+  
+
+  
+  
+        

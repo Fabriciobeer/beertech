@@ -43,23 +43,11 @@
           <% if logged_in? && (current_user.cliente.estoque_final == "Sim") %>
             <li><a><i class="fa fa-edit"></i> Serviço 2: Estoque de produtos finalizados <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
-                <li><%= link_to "Estoque atual", plainpage_form_path %>
-                </li>
-                <li><%= link_to "Entrada de produtos", plainpage_form_advanced_path %>
-                </li>
-                <li><%= link_to "Saída de produtos", plainpage_form_validation_path %>
-                </li>
-                <li><%= link_to "Análise", plainpage_form_wizard_path %>
-                </li>
-                <li><%= link_to "Form upload", plainpage_form_upload_path %>
-                </li>
-                <li><%= link_to "Form botões", plainpage_form_buttons_path %>
-                </li>
                 <li><%= link_to "Estoque de produto atual", estoquefinal_path(id: current_user.cliente_id) %>
                 </li>
                 <li><%= link_to "Atualizar estoque final", new_estoquefinal_path %>
                 </li>
-                <li><%= link_to "Análise", new_estoquefinal_path %>
+                <li><%= link_to "Análise", analise2_path %>
                 </li>
                 <li><%= link_to "Cadastrar produto", new_item_path %>
                 </li>

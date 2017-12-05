@@ -68,7 +68,7 @@
                 <% itemid = estoquefinal.item_id %>
                 <tr>
                   <td><%= estoquefinal.item.item_name %></td>
-                  <td><%= estoquefinal.updated_at %></td>
+                  <td><%= estoquefinal.updated_at.to_date %></td>
                   <% saida = @estoquefinalsaida.where(item_id: itemid).last %>
                   <% if saida == nil %>
                     <% @estoquefinalentrada.where(item_id: itemid).last.update(tempo_maximo_guardado: (Time.current.to_date - @estoquefinalentrada.where(item_id: itemid).last.created_at.to_date).to_i)  %>
