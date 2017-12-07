@@ -16,9 +16,6 @@ class CiclovidasController < ApplicationController
           flash[:danger] = "Você não possui barris com a situação atualizada ainda. Por favor atualize a situação dos seus barris primeiro."
         end
         @ciclovida = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
-        @ciclovidaitens = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
-        @ciclovidaentrada = Ciclovida.where(cliente_id: current_user.cliente_id, atualizar: "Entrada").order(updated_at: :desc)
-        @ciclovidasaida = Ciclovida.where(cliente_id: current_user.cliente_id, atualizar: "Saída").order(updated_at: :desc)
       else
         redirect_to root_path
       end
@@ -132,7 +129,13 @@ class CiclovidasController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ciclovida
-      @ciclovida = Ciclovida.find(params[:id])
+      if !Ciclovida.where(cliente_id: current_user.cliente_id).exists?
+        redirect_to root_path
+        flash[:danger] = "Voce não possui itens cadastrados ainda!"
+      else
+        @ciclovida = Ciclovida.find(params[:id])
+      end
+      
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -57,7 +57,7 @@
           <% if logged_in? && (current_user.cliente.ciclo_vida_barril == "Sim") %>
             <li><a><i class="fa fa-barcode"></i> Serviço 3: Ciclo de vida de barris <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
-                <li><%= link_to "Localização dos barris", plainpage_general_elements_path %>
+                <li><%= link_to "Localização dos barris", ciclovida_path(id: current_user.cliente_id) %>
                 </li>
                 <li><%= link_to "Análise", plainpage_media_gallery_path %>
                 </li>

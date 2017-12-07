@@ -90,8 +90,16 @@ class EstoquefinalsController < ApplicationController
       @estoquefinal.quantidade_atual = quantidade_velha - quantidade_nova
     end
     
+    
+    
     respond_to do |format|
       if @estoquefinal.save
+        if @estoquefinal.item.item_name.include? "arril"
+          if Ciclovida.where(cliente_id: current_user.cliente_id, item_id: @estoquefinal.item_id).order(updated_at: :desc).first.tipo_cerveja != "" && @estoquefinal.atualizar == "Saída"   
+            tipocerveja = Ciclovida.where(cliente_id: current_user.cliente_id, item_id: @estoquefinal.item_id).order(updated_at: :desc).first.tipo_cerveja
+            Ciclovida.create(cliente_id: current_user.cliente_id, item_id: @estoquefinal.item_id, localizacao: @estoquefinal.destino, tipo_cerveja: tipocerveja)
+          end
+        end
         format.html { redirect_to new_estoquefinal_path, notice: 'Estoque final foi atualizado com sucesso' }
         format.json { render :show, status: :created, location: @estoquefinal }
       else
@@ -99,6 +107,8 @@ class EstoquefinalsController < ApplicationController
         format.json { render json: @estoquefinal.errors, status: :unprocessable_entity }
       end
     end
+    
+    
   end
 
   # PATCH/PUT /estoquefinals/1
