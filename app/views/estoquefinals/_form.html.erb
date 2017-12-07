@@ -2,7 +2,7 @@
   <div class="">
     <div class="page-title">
       <div class="title_left">
-        <h3>Nova entrada de matéria prima no estoque</h3>
+        <h3>Atualização de produtos no estoque</h3>
       </div>
     </div>
     
@@ -32,13 +32,20 @@
               <%= f.label :nome_cervejaria %><br>
               <input type="text" class="form-control" readonly="readonly" placeholder= <%= current_user.cliente.nome_cervejaria %> >
             </div>
+            <% item_array = [] %>
+            <% Item.where(cliente_id: current_user.cliente_id).each do |item| %>
+              <% item_array << item %>
+            <% end %>
+            
+            <div class="field">
+              <%= f.label :Codigo_de_barras %><br>
+              <%= text_field_tag :barcode, "", class: "form-control", placeholder: "Código de barras", autofocus: true, id: 'barcode' %>
+            </div>
+            
             <div class="field">
               <%= f.label :item_a_ser_atualizado %><br>
-              <% item_array = [] %>
-              <% Item.where(cliente_id: current_user.cliente_id).each do |item| %>
-                <% item_array << item %>
-              <% end %>
-              <%= f.select :item_id, item_array.collect { |value| [ value.item_name, value.id ] } %>
+              <%= text_field_tag :item_name, "", class: "form-control", readonly: "readonly", autofocus: true, id: 'item_name' %>
+              <%= hidden_field_tag :item_id, "", class: "form-control", readonly: "readonly", autofocus: true, id: 'item_id' %>
             </div>
             <div class="field">
               <%= f.label :quantidade_atual %><br>
@@ -63,3 +70,20 @@
   </div>
   <div class="clearfix"></div>
 </div>
+<!-- java script para enviar codigo de barras pro controller -->
+<script type="text/javascript">
+  $('#barcode').on('focusout', function (){
+    var barcode = $(this);
+    return $.ajax({
+      url: '/estoquefinals/set_item_name',
+      type: 'GET',
+      dataType:"json",
+      data: {barcode: barcode.val()},
+      success:function(result){
+        $('#item_name').val(result.item_name) 
+        $('#item_id').val(result.id) 
+       
+      }
+    });
+  });
+</script>

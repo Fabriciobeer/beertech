@@ -3,11 +3,19 @@ Rails.application.routes.draw do
   resources :materiaprimas
   resources :users
   resources :clientes, except: [:new]
-  resources :estoquefinals
+  resources :estoquefinals do
+    collection do
+      get 'set_item_name'
+    end
+  end
   resources :estoquemps, except: [:edit]
   resources :pagamentos
   resources :items
-  resources :ciclovidas
+  resources :ciclovidas do
+    collection do
+      get 'set_item_data'
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -49,7 +57,8 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
   get 'analise1', to: 'estoquemps#analise1'
   get 'analise2', to: 'estoquefinals#analise2'
-  
+  get 'analise3', to: 'ciclovidas#analise3'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

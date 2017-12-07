@@ -57,23 +57,13 @@
           <% if logged_in? && (current_user.cliente.ciclo_vida_barril == "Sim") %>
             <li><a><i class="fa fa-barcode"></i> Serviço 3: Ciclo de vida de barris <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
-                <li><%= link_to "General Elements", plainpage_general_elements_path %>
+                <li><%= link_to "Localização dos barris", plainpage_general_elements_path %>
                 </li>
-                <li><%= link_to "Media gallery", plainpage_media_gallery_path %>
+                <li><%= link_to "Análise", plainpage_media_gallery_path %>
                 </li>
-                <li><%= link_to "typography", plainpage_typography_path %>
+                <li><%= link_to "Atualizar localização dos barris", new_ciclovida_path %>
                 </li>
-                <li><%= link_to "icons", plainpage_icons_path %>
-                </li>
-                <li><%= link_to "glyphicons", plainpage_glyphicons_path %>
-                </li>
-                <li><%= link_to "widgets", plainpage_widgets_path %>
-                </li>
-                <li><%= link_to "invoice", plainpage_invoice_path %>
-                </li>
-                <li><%= link_to "inbox", plainpage_inbox_path %>
-                </li>
-                <li><%= link_to "calendar", plainpage_calendar_path %>
+                <li><%= link_to "Cadastrar barril", new_item_path %>
                 </li>
               </ul>
             </li>

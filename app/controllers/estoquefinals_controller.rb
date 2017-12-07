@@ -35,7 +35,31 @@ class EstoquefinalsController < ApplicationController
 
   # GET /estoquefinals/new
   def new
-    @estoquefinal = Estoquefinal.new
+    if logged_in?
+      @estoquefinal = Estoquefinal.new
+    else
+      flash[:danger] = "Você não está logado. Por favor, faça login primeiro."
+      redirect_to root_path
+    end
+    
+  end
+  
+  def set_item_name
+    @itemdata = Item.where(cliente_id: current_user.cliente_id, barcode: params[:barcode]).take
+    
+    if @itemdata != nil && @local != nil
+      array = [@itemdata.id, @itemdata.item_name, @local.localizacao]
+      respond_to do |format|
+        format.html
+        format.json {render json: @itemdata }
+      end
+    else
+      array = [@itemdata.id, @itemdata.item_name, nil]
+      respond_to do |format|
+        format.html
+        format.json {render json: @itemdata }
+      end
+    end
   end
 
   # GET /estoquefinals/1/edit
@@ -44,10 +68,11 @@ class EstoquefinalsController < ApplicationController
 
   # POST /estoquefinals
   # POST /estoquefinals.json
-  def create
+  def create  
+    
     @estoquefinal = Estoquefinal.new(estoquefinal_params)
     @estoquefinal.cliente_id = current_user.cliente_id
-
+    @estoquefinal.item_id = params[:item_id]
     
     if !Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).empty? && @estoquefinal.atualizar == "Entrada"
       
@@ -118,6 +143,6 @@ class EstoquefinalsController < ApplicationController
     end
     
     def outro_param
-      params.require(:estoquefinal).permit(:item)
+      params.require(:estoquefinal).permit(:barcode)
     end
 end

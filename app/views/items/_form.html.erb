@@ -26,7 +26,7 @@
             </div>
             <div class="field">
               <%= f.label :Produto %><br>
-              <%= f.text_field :item, class: "form-control", placeholder: "Nome do produto", autofocus: true %>
+              <%= f.text_field :item_name, class: "form-control", placeholder: "Nome do produto", autofocus: true %>
             </div>
             <div class="field">
               <%= f.label :Codigo_de_barras %><br>
@@ -61,7 +61,7 @@
               <% item.each do |itens| %>
                 <tr>
                   <th><%= itens.id %></th>
-                  <th><%= itens.item %></th>
+                  <th><%= itens.item_name %></th>
                   <th><%= itens.barcode %></th>
                 </tr>
               <% end %>

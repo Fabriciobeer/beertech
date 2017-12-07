@@ -1,29 +1,95 @@
-<%= form_for(@ciclovida) do |f| %>
-  <% if @ciclovida.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@ciclovida.errors.count, "error") %> prohibited this ciclovida from being saved:</h2>
-
-      <ul>
-      <% @ciclovida.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Atualização da situação dos barris</h3>
+      </div>
     </div>
-  <% end %>
+    <%= form_for(@ciclovida) do |f| %>
+      <% if @ciclovida.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@ciclovida.errors.count, "error") %> prohibited this ciclovida from being saved:</h2>
+    
+          <ul>
+          <% @ciclovida.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <% item_array = [] %>
+            <% Item.where(cliente_id: current_user.cliente_id).each do |item| %>
+              <% if item.item_name.include? "arril" %>
+                <% item_array << item %>
+              <% end %>
+            <% end %>
+            <div class="field">
+              <%= f.label :Nome_cervejaria %><br>
+              <input type="text" class="form-control" readonly="readonly" placeholder= <%= current_user.cliente.nome_cervejaria %> >
+            </div>
+            <div class="field">
+              <%= f.label :Codigo_de_barras %><br>
+              
+              <%= text_field_tag :barcode, "", class: "form-control", placeholder: "Código de barras", autofocus: true, id: 'barcode' %>
+            </div>
+            <div class="field">
+              <%= f.label :Barril %><br>
+              <%= text_field_tag :item_name, "", class: "form-control", readonly: "readonly", autofocus: true, id: 'item_name' %>
+            </div>
+            <div class="field">
+              <%= f.label :Id_do_barril %><br>
+              <%= f.text_field :item_id, class: "form-control", readonly: "readonly", autofocus: true, id: 'item_id' %>
+            </div>
+            <div class="field">
+              <%= f.label :Localizacao_atual %><br>
+              <%= f.text_field :localizacao, class: "form-control", readonly: "readonly", autofocus: true, id: 'localizacao' %>
+            </div>
+            <div class="field">
+              <%= f.label :tipo_cerveja %><br>
+              <%= f.text_field :tipo_cerveja, class: "form-control", placeholder: "Estilo de cerveja, caso esteja sendo cheio com cerveja para ir à câmara fria. Se não estiver sendo cheio, deixar campo em branco.", autofocus: true %>
+            </div>
+            
+            
+            <br>
+            <div class="actions">
+              <%= f.submit "Atualizar ", class: 'btn btn-primary btn-lg' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<!-- java script para enviar codigo de barras pro controller -->
+<script type="text/javascript">
+  $('#barcode').on('focusout', function (){
+    var barcode = $(this);
+    return $.ajax({
+      url: '/ciclovidas/set_item_data',
+      type: 'GET',
+      dataType:"json",
+      data: {barcode: barcode.val()},
+      success:function(result){
+        $('#item_name').val(result[1]) 
+        $('#item_id').val(result[0]) 
+        if (result[2] != null || result[2] == "Estoque final. Sujo e vazio" || result[2] == "Estoque de barris. Limpo e vazio" || result[2] == "Câmara fria. Cheio" || result[2] == "não cadastrado ainda") {
+          $('#localizacao').val(result[2])
+        }
+        else if (result[2] == null ){
+          $('#localizacao').val("não cadastrado ainda")
+        }
+      }
+    });
+  });
+</script>
 
-  <div class="field">
-    <%= f.label :id_cervejaria %><br>
-    <%= f.number_field :id_cervejaria %>
-  </div>
-  <div class="field">
-    <%= f.label :id_item %><br>
-    <%= f.number_field :id_item %>
-  </div>
-  <div class="field">
-    <%= f.label :localizacao %><br>
-    <%= f.number_field :localizacao %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+
+
+
+
+

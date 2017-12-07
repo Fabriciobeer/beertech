@@ -44,6 +44,7 @@ class EstoquempsController < ApplicationController
     if logged_in?
       @estoquemp = Estoquemp.new
     else
+      flash[:danger] = "Você não está logado. Por favor, faça login primeiro."
       redirect_to root_path
     end
   end
