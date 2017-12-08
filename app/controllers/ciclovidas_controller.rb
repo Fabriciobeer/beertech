@@ -16,6 +16,7 @@ class CiclovidasController < ApplicationController
           flash[:danger] = "Você não possui barris com a situação atualizada ainda. Por favor atualize a situação dos seus barris primeiro."
         end
         @ciclovida = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
+        @ciclovidatempo = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
       else
         redirect_to root_path
       end
