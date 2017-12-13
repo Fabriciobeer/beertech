@@ -21,7 +21,7 @@
         <div class="x_panel">
           <div class="x_title">
             <div class="field">
-              <%= f.label :id_cervejaria %><br>
+              <%= f.label :nome_cervejaria %><br>
               <input type="text" class="form-control" readonly="readonly" placeholder= <%= current_user.cliente.nome_cervejaria %> >
             </div>
             <div class="field">
@@ -44,7 +44,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
-          <h2>Receitas cadastradas para a cervejaria <%= current_user.cliente.nome_cervejaria %></h2>
+          <h2>Produtos cadastrados para a cervejaria <%= current_user.cliente.nome_cervejaria %></h2>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">

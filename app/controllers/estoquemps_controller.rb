@@ -7,17 +7,18 @@ class EstoquempsController < ApplicationController
   # GET /estoquemps
   # GET /estoquemps.json
   def index
-    if logged_in?
-      @estoquemps = Estoquemp.all
+    if logged_in?  && current_user.cliente.estoque_mp == "Sim"
+      @estoquemps = Estoquemp.where(cliente_id: current_user.cliente_id)
     else
       redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
     end
   end
 
   # GET /estoquemps/1
   # GET /estoquemps/1.json
   def show
-    if logged_in?
+    if logged_in? && current_user.cliente.estoque_mp == "Sim"
       if Estoquemp.where(cliente_id: current_user.cliente_id, item: @estoquemp.item).empty?
         redirect_to new_estoquemp_path
         flash[:danger] = "Você não possui itens em estoque ainda para mostrar. Por favor atualize seu estoque primeiro."
@@ -27,25 +28,27 @@ class EstoquempsController < ApplicationController
       
     else
       redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
     end
   end
   
   def analise1
-    if logged_in?
+    if logged_in? && current_user.cliente.estoque_mp == "Sim"
       @estoquemp_itens = Estoquemp.uniq.pluck(:item)
       @estoquemp = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
     else
       redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
     end
   end
 
   # GET /estoquemps/new
   def new
-    if logged_in?
+    if logged_in? && current_user.cliente.estoque_mp == "Sim"
       @estoquemp = Estoquemp.new
     else
-      flash[:danger] = "Você não está logado. Por favor, faça login primeiro."
       redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
     end
   end
 
@@ -55,6 +58,7 @@ class EstoquempsController < ApplicationController
       @estoquemp = Estoquemp.new
     else
       redirect_to root_path
+      flash[:danger] = "Você precisa estar logado para realizar esta ação."
     end
   end
   
@@ -83,7 +87,7 @@ class EstoquempsController < ApplicationController
     
     respond_to do |format|
       if @estoquemp.save
-        format.html { redirect_to new_estoquemp_path, notice: 'Item adicionado com sucesso ao estoque' }
+        format.html { redirect_to new_estoquemp_path, flash: { success: 'Item adicionado com sucesso ao estoque' } }
         format.json { render :show, status: :created, location: @estoquemp }
       else
         format.html { render :new }
@@ -100,7 +104,7 @@ class EstoquempsController < ApplicationController
    
     respond_to do |format|
       if @estoquemp.update(estoquemp_params)
-        format.html { redirect_to saidamp_path, notice: 'Estoque foi atualizado com sucesso!' }
+        format.html { redirect_to saidamp_path, flash: { success: 'Estoque foi atualizado com sucesso!' } }
         format.json { render :show, status: :ok, location: @estoquemp }
       else
         format.html { render :edit }

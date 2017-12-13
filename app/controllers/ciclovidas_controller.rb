@@ -3,14 +3,19 @@ class CiclovidasController < ApplicationController
 
   # GET /ciclovidas
   # GET /ciclovidas.json
-  def index
-    @ciclovidas = Ciclovida.all
+  def index 
+    if logged_in? && current_user.cliente.ciclo_vida_barril == "Sim"
+      @ciclovidas = Ciclovida.where(cliente_id: current_user.cliente_id)
+    else
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
+      redirect_to root_path
+    end
   end
 
   # GET /ciclovidas/1
   # GET /ciclovidas/1.json
   def show
-      if logged_in?
+      if logged_in? && current_user.cliente.ciclo_vida_barril == "Sim"
         if Ciclovida.where(cliente_id: current_user.cliente_id).empty?
           redirect_to new_ciclovida_path
           flash[:danger] = "Você não possui barris com a situação atualizada ainda. Por favor atualize a situação dos seus barris primeiro."
@@ -19,26 +24,28 @@ class CiclovidasController < ApplicationController
         @ciclovidatempo = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
       else
         redirect_to root_path
+        flash[:danger] = "Você não está logado ou não possui permissão para isso."
       end
   end
   
   def analise3
-    if logged_in?
+    if logged_in? && current_user.cliente.ciclo_vida_barril == "Sim"
       @ciclovida_itens = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
       @ciclovida = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
     else
       redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
     end
   end
 
   # GET /ciclovidas/new
   def new
-    if logged_in?
+    if logged_in? && current_user.cliente.ciclo_vida_barril == "Sim"
       @ciclovida = Ciclovida.new
       @item = Item.where(cliente_id: current_user.cliente_id)
     else
-      flash[:danger] = "Você não está logado. Por favor, faça login primeiro."
       redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
     end
     
   end
@@ -68,6 +75,7 @@ class CiclovidasController < ApplicationController
 
   # GET /ciclovidas/1/edit
   def edit
+    redirect_to root_path
   end
 
   # POST /ciclovidas
@@ -94,7 +102,7 @@ class CiclovidasController < ApplicationController
     
     respond_to do |format|
       if @ciclovida.save
-        format.html { redirect_to new_ciclovida_path, notice: 'Estado do barril atualizado com sucesso' }
+        format.html { redirect_to new_ciclovida_path, flash: { success: 'Estado do barril atualizado com sucesso' } }
         format.json { render :show, status: :created, location: @ciclovida }
       else
         format.html { render :new }

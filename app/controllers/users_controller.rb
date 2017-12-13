@@ -20,7 +20,10 @@ class UsersController < ApplicationController
   
   #alterar aqui para admin inserir novos usuários
   def new2
-    
+    if logged_in? && (current_user.nivel_usuario == "admin")
+      @user = User.new
+      @usercadastrados = User.where(cliente_id: current_user.cliente_id)
+    end
   end
 
   # GET /users/1/edit
@@ -32,13 +35,22 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
+    
     if @user.new_record? && !logged_in?
-          @user.cliente = Cliente.last 
-          @user.nivel_usuario = "admin"
-    end 
+      @user.cliente = Cliente.last 
+      if User.where(cliente_id: Cliente.last.id).take == nil
+        @user.nivel_usuario = "admin"
+      else
+        @user.nivel_usuario = "comum"
+      end
+    end
+    if @user.new_record? && logged_in?
+      @user.cliente = current_user.cliente
+      @user.nivel_usuario = "comum"
+    end
     respond_to do |format|
       if @user.save
-        format.html { redirect_to root_path, notice: 'Usuário criado com sucesso!' }
+        format.html { redirect_to root_path, flash: { success: 'Usuário criado com sucesso!' } }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -55,9 +67,10 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to criarsegundouser_path, flash: { success: 'Usuário foi atualizado com sucesso.' } }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -71,7 +84,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to criarsegundouser_path, flash: { success: 'Usuário foi excluído com sucesso.' } }
       format.json { head :no_content }
     end
   end

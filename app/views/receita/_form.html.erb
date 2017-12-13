@@ -66,35 +66,39 @@
   <div class="clearfix"></div>
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
-    <div class="x_title">
-      <h2>Receitas cadastradas</h2>
-      <div class="clearfix"></div>
-    </div>
-    <div class="x_content">
-      <table id="datatable-responsive4" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Nome da receita</th>
-            <th>Item usado na receita</th>
-            <th>Quantidade usada na receita</th>
-            <th>Unidade de medida do item</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% receita = Receitum.where(cliente_id: current_user.cliente_id) %>
-          <% receita.each do |receitas| %>
+      <div class="x_title">
+        <h2>Receitas cadastradas</h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <table id="datatable-responsive4" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+          <thead>
             <tr>
-              <th><%= receitas.id %></th>
-              <th><%= receitas.nome_receita %></th>
-              <th><%= receitas.itens_receita %></th>
-              <th><%= receitas.quantidade_usada %></th>
-              <th><%= receitas.unidade_receita %></th>
+              <th>Id</th>
+              <th>Nome da receita</th>
+              <th>Item usado na receita</th>
+              <th>Quantidade usada na receita</th>
+              <th>Unidade de medida do item</th>
+              <th>Editar</th>
+              <th>Deletar</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            <% receita = Receitum.where(cliente_id: current_user.cliente_id) %>
+            <% receita.each do |receitas| %>
+              <tr>
+                <td><%= receitas.id %></td>
+                <td><%= receitas.nome_receita %></td>
+                <td><%= receitas.itens_receita %></td>
+                <td><%= receitas.quantidade_usada %></td>
+                <td><%= receitas.unidade_receita %></td>
+                <td><%= link_to 'Editar', edit_receitum_path(receitas) %></td>
+                <td><%= link_to 'Delete', receitum_path(receitas), method: :delete, data: {confirm: "Você tem certeza?"} %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="clearfix"></div>

@@ -1,0 +1,67 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Edição de receita</h3>
+      </div>
+    </div>
+    <%= form_for(@receitum) do |f| %>
+      <% if @receitum.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@receitum.errors.count, "error") %> prohibited this receitum from being saved:</h2>
+    
+          <ul>
+          <% @receitum.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title"></div>
+          <div class="field">
+            <%= f.label :cliente_id %><br>
+            <input type="text" class="form-control" readonly="readonly" placeholder= <%= current_user.cliente.nome_cervejaria %> >
+          </div>
+          <div class="field">
+            <%= f.label :nome_receita %><br>
+            <%= f.text_field :nome_receita, class: "form-control", placeholder: "Nome da receita", autofocus: true %>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="field">
+            <%= f.label :Itens_usados_na_receita %><br>
+            <% materiaprima_array = [] %>
+            <% Materiaprima.where(cliente_id: current_user.cliente_id).each do |materiaprima| %>
+              <% materiaprima_array << materiaprima.item %>
+            <% end %>
+            <%= f.select(:itens_receita, materiaprima_array.map { |value| [ value, value ] }) %>
+          </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="field">
+            <%= f.label :quantidade_usada %><br>
+            <%= f.text_field :quantidade_usada, class: "form-control", placeholder: "Quantidade usada do item", autofocus: true %>
+          </div>
+           </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="field">
+            <%= f.label :unidade_receita %><br>
+            <%= f.select :unidade_receita, ["grama", "mL", "unidade"] %>
+          </div>
+          </div>
+          <br>
+          <br>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="actions">
+            <%= f.submit "Editar receita", class: 'btn btn-primary btn-lg' %>
+            <%= link_to 'Cancelar', receitum_path, :class => "btn btn-link btn-lg", :method => "get" %>
+          </div>
+          </div>
+        </div>
+          
+      </div>
+      
+    <% end %>
+  </div>
+ </div>

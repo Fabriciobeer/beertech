@@ -4,21 +4,33 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.all
+    if logged_in? && (current_user.cliente.ciclo_vida_barril == "Sim" || current_user.cliente.estoque_final == "Sim")
+      @items = Item.where(cliente_id: current_user.cliente_id)
+    else
+      redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
+    end
   end
 
   # GET /items/1
   # GET /items/1.json
   def show
+    redirect_to root_path
   end
 
   # GET /items/new
   def new
-    @item = Item.new
+    if logged_in? && (current_user.cliente.ciclo_vida_barril == "Sim" || current_user.cliente.estoque_final == "Sim")
+      @item = Item.new
+    else
+      redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
+    end
   end
 
   # GET /items/1/edit
   def edit
+    redirect_to root_path
   end
 
   # POST /items
@@ -29,7 +41,7 @@ class ItemsController < ApplicationController
     
     respond_to do |format|
       if @item.save
-        format.html { redirect_to new_item_path, success: 'Item criado com sucesso.'}
+        format.html { redirect_to new_item_path, flash: { success: 'Item criado com sucesso.' } }
         format.json { render :show, status: :created, location: @item }
       else
         format.html { render :new }
@@ -70,6 +82,6 @@ class ItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-      params.require(:item).permit(:item, :barcode, :cliente_id)
+      params.require(:item).permit(:item_name, :barcode, :cliente_id)
     end
 end

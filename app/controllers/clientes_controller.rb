@@ -4,12 +4,18 @@ class ClientesController < ApplicationController
   # GET /clientes
   # GET /clientes.json
   def index
-    @clientes = Cliente.all
+    if logged_in?
+      @clientes = Cliente.where(id: current_user.cliente_id)
+    else
+      redirect_to root_path
+      flash[:danger] = "Você precisa estar logado para realizar esta ação."
+    end
   end
 
   # GET /clientes/1
   # GET /clientes/1.json
   def show
+    redirect_to root_path
   end
 
   # GET /clientes/new
@@ -19,6 +25,7 @@ class ClientesController < ApplicationController
 
   # GET /clientes/1/edit
   def edit
+    redirect_to root_path
   end
 
   # POST /clientes

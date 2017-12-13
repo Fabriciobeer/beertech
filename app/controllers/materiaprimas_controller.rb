@@ -4,26 +4,32 @@ class MateriaprimasController < ApplicationController
   # GET /materiaprimas
   # GET /materiaprimas.json
   def index
-    @materiaprimas = Materiaprima.all
+    if logged_in? && current_user.cliente.estoque_mp == "Sim"
+      @materiaprimas = Materiaprima.where(cliente_id: current_user.cliente_id)
+    else
+      redirect_to root_path
+      flash[:danger] = "Você precisa estar logado para realizar essa ação."
+    end
   end
 
   # GET /materiaprimas/1
   # GET /materiaprimas/1.json
   def show
+    redirect_to root_path
   end
 
   # GET /materiaprimas/new
   def new
-    if logged_in?
+    if logged_in? && current_user.cliente.estoque_mp == "Sim"
       @materiaprima = Materiaprima.new
     else
       redirect_to root_path
     end
-    
   end
 
   # GET /materiaprimas/1/edit
   def edit
+    redirect_to root_path
   end
 
   # POST /materiaprimas
@@ -33,7 +39,7 @@ class MateriaprimasController < ApplicationController
     @materiaprima.cliente_id = current_user.cliente_id
     respond_to do |format|
       if @materiaprima.save
-        format.html { redirect_to new_materiaprima_path, notice: 'Materiaprima was successfully created.' }
+        format.html { redirect_to new_materiaprima_path, flash: { success: 'Matéria prima criada com sucesso.' } }
         format.json { render :show, status: :created, location: @materiaprima }
       else
         format.html { render :new }
@@ -47,7 +53,7 @@ class MateriaprimasController < ApplicationController
   def update
     respond_to do |format|
       if @materiaprima.update(materiaprima_params)
-        format.html { redirect_to @materiaprima, notice: 'Materiaprima was successfully updated.' }
+        format.html { redirect_to @materiaprima, flash: { success: 'Materia prima atualizada com sucesso.' } }
         format.json { render :show, status: :ok, location: @materiaprima }
       else
         format.html { render :edit }

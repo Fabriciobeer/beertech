@@ -4,18 +4,25 @@ class ReceitaController < ApplicationController
   # GET /receita
   # GET /receita.json
   def index
-    @receita = Receitum.all
+    if logged_in? && (current_user.cliente.estoque_mp == "Sim") && (current_user.nivel_usuario == "admin")
+      @receita = Receitum.where(cliente_id: current_user.cliente_id)
+    else
+      redirect_to root_path
+      flash[:danger] = "Você precisa estar logado para realizar essa ação."
+    end
   end
 
   # GET /receita/1
   # GET /receita/1.json
   def show
+    if logged_in? && (current_user.cliente.estoque_mp == "Sim") && (current_user.nivel_usuario == "admin")
+      @receita = Receitum.where(cliente_id: current_user.cliente_id).group(:nome_receita)
+    end
   end
 
   # GET /receita/new
   def new
-    
-    if logged_in?
+    if logged_in? && current_user.cliente.estoque_mp == "Sim"
       @receitum = Receitum.new
     else
       redirect_to root_path
@@ -24,6 +31,8 @@ class ReceitaController < ApplicationController
 
   # GET /receita/1/edit
   def edit
+    if logged_in? && (current_user.cliente.estoque_mp == "Sim") && (current_user.nivel_usuario == "admin")
+    end
   end
 
   # POST /receita
@@ -33,7 +42,7 @@ class ReceitaController < ApplicationController
     @receitum.cliente_id = current_user.cliente_id
     respond_to do |format|
       if @receitum.save
-        format.html { redirect_to new_receitum_path, notice: 'Receita adicionada com sucesso' }
+        format.html { redirect_to new_receitum_path, flash: { success: 'Receita adicionada com sucesso' } }
         format.json { render :show, status: :created, location: @receitum }
       else
         format.html { render :new }
@@ -47,7 +56,7 @@ class ReceitaController < ApplicationController
   def update
     respond_to do |format|
       if @receitum.update(receitum_params)
-        format.html { redirect_to @receitum, notice: 'Receitum was successfully updated.' }
+        format.html { redirect_to receitum_path, flash: { success: 'Receita atualizada com sucesso' } }
         format.json { render :show, status: :ok, location: @receitum }
       else
         format.html { render :edit }
@@ -61,7 +70,7 @@ class ReceitaController < ApplicationController
   def destroy
     @receitum.destroy
     respond_to do |format|
-      format.html { redirect_to receita_url, notice: 'Receitum was successfully destroyed.' }
+      format.html { redirect_to new_receitum_path, flash: { success: 'Receita/ingrediente deletado com sucesso.' } }
       format.json { head :no_content }
     end
   end

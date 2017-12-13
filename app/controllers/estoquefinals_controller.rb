@@ -4,13 +4,18 @@ class EstoquefinalsController < ApplicationController
   # GET /estoquefinals
   # GET /estoquefinals.json
   def index
-    @estoquefinals = Estoquefinal.all
+    if logged_in? && current_user.cliente.estoque_final == "Sim"
+      @estoquefinals = Estoquefinal.where(cliente_id: current_user.cliente_id)
+    else
+      redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
+    end
   end
 
   # GET /estoquefinals/1
   # GET /estoquefinals/1.json
   def show
-    if logged_in?
+    if logged_in? && current_user.cliente.estoque_final == "Sim"
       if Estoquefinal.where(cliente_id: current_user.cliente_id).empty?
         redirect_to new_estoquefinal_path
         flash[:danger] = "Você não possui itens em estoque ainda para mostrar. Por favor atualize seu estoque final primeiro."
@@ -21,25 +26,27 @@ class EstoquefinalsController < ApplicationController
       @estoquefinalsaida = Estoquefinal.where(cliente_id: current_user.cliente_id, atualizar: "Saída").order(updated_at: :desc)
     else
       redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
     end
   end
   
   def analise2
-    if logged_in?
+    if logged_in? && current_user.cliente.estoque_final == "Sim"
       @estoquefinal_itens = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
       @estoquefinal = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
     else
       redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
     end
   end
 
   # GET /estoquefinals/new
   def new
-    if logged_in?
+    if logged_in? && current_user.cliente.estoque_final == "Sim"
       @estoquefinal = Estoquefinal.new
     else
-      flash[:danger] = "Você não está logado. Por favor, faça login primeiro."
       redirect_to root_path
+      flash[:danger] = "Você não está logado ou não possui permissão para isso."
     end
     
   end
@@ -64,6 +71,7 @@ class EstoquefinalsController < ApplicationController
 
   # GET /estoquefinals/1/edit
   def edit
+    redirect_to root_path
   end
 
   # POST /estoquefinals
@@ -100,7 +108,7 @@ class EstoquefinalsController < ApplicationController
             Ciclovida.create(cliente_id: current_user.cliente_id, item_id: @estoquefinal.item_id, localizacao: @estoquefinal.destino, tipo_cerveja: tipocerveja)
           end
         end
-        format.html { redirect_to new_estoquefinal_path, notice: 'Estoque final foi atualizado com sucesso' }
+        format.html { redirect_to new_estoquefinal_path, flash: { success: 'Estoque final foi atualizado com sucesso' } }
         format.json { render :show, status: :created, location: @estoquefinal }
       else
         format.html { render :new }
