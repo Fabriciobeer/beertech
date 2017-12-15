@@ -74,16 +74,24 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% barril = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id) %>
-                      <% barril.each do |ciclovida| %>
-                        <% tempo_no_cliente = (Time.current.day - ciclovida.updated_at.day).to_i %>
-                          <% if ciclovida.localizacao != "Estoque final. Sujo e vazio" && ciclovida.localizacao != "Estoque de barris. Limpo e vazio" && ciclovida.localizacao != "Câmara fria. Cheio" && tempo_no_cliente >= 6 %>
-                            <tr>
-                              <td><%= ciclovida.item.item_name %></td>
-                              <td><%= ciclovida.localizacao %></td>
-                              <td><%= tempo_no_cliente.to_s + " dias" %></td>
-                            </tr>
-                          <% end %>
+                      <% barril = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item_id) %>
+                      <% if barril.exists? %>
+                        <% barril.each do |ciclovida| %>
+                          <% tempo_no_cliente = (Time.current.day - ciclovida.updated_at.day).to_i %>
+                            <% if ciclovida.localizacao != "Estoque final. Sujo e vazio" && ciclovida.localizacao != "Estoque de barris. Limpo e vazio" && ciclovida.localizacao != "Câmara fria. Cheio" && tempo_no_cliente >= 6 %>
+                              <tr>
+                                <td><%= ciclovida.item.item_name %></td>
+                                <td><%= ciclovida.localizacao %></td>
+                                <td><%= tempo_no_cliente.to_s + " dias" %></td>
+                              </tr>
+                            <% end %>
+                        <% end %>
+                      <% else %>
+                        <tr>
+                          <td>cadastre barris primeiro</td>
+                          <td>cadastre barris primeiro</td>
+                          <td>cadastre barris primeiro</td>
+                        </tr>
                       <% end %>
                     </tbody>
                   </table>
