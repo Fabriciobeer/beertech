@@ -22606,7 +22606,6 @@ $(function() {
 
 
 
-<script>
   var handleDataTableButtons = function() {
       "use strict";
       0 !== $("#datatable-buttons").length && $("#datatable-buttons").DataTable({
@@ -22638,8 +22637,8 @@ $(function() {
         }
       }
     }();
-</script>
-<script type="text/javascript">
+    
+    
   $(document).ready(function() {
     $('#datatable').dataTable();
     $('#datatable-keytable').DataTable({
@@ -22660,4 +22659,4 @@ $(function() {
     });
   });
   TableManageButtons.init();
-</script>
+
