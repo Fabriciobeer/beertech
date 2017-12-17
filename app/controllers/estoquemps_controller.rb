@@ -23,9 +23,8 @@ class EstoquempsController < ApplicationController
         redirect_to new_estoquemp_path
         flash[:danger] = "Você não possui itens em estoque ainda para mostrar. Por favor atualize seu estoque primeiro."
       end
-      #@estoquemp = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item)
       @estoquempcliente = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
-      @estoquempitens = Estoquemp.uniq.pluck(:item)
+      @estoquempitens = Estoquemp.where(cliente_id: current_user.cliente_id).uniq.pluck(:item)
       @estoquemp = []
       @estoquempitens.each do |item|
         @estoquemp << @estoquempcliente.where(item: item).first
@@ -39,7 +38,7 @@ class EstoquempsController < ApplicationController
   
   def analise1
     if logged_in? && current_user.cliente.estoque_mp == "Sim"
-      @estoquemp_itens = Estoquemp.uniq.pluck(:item)
+      @estoquemp_itens = Estoquemp.where(cliente_id: current_user.cliente_id).uniq.pluck(:item)
       @estoquemp = Estoquemp.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
     else
       redirect_to root_path

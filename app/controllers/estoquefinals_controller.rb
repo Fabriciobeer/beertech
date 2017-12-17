@@ -20,10 +20,14 @@ class EstoquefinalsController < ApplicationController
         redirect_to new_estoquefinal_path
         flash[:danger] = "Você não possui itens em estoque ainda para mostrar. Por favor atualize seu estoque final primeiro."
       end
-      @estoquefinal = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
-      @estoquefinalitens = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
+      @estoquefinalcliente = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
+      @estoquefinalitens = Estoquefinal.where(cliente_id: current_user.cliente_id).uniq.pluck(:item_id)
+      @estoquefinal = []
       @estoquefinalentrada = Estoquefinal.where(cliente_id: current_user.cliente_id, atualizar: "Entrada").order(updated_at: :desc)
       @estoquefinalsaida = Estoquefinal.where(cliente_id: current_user.cliente_id, atualizar: "Saída").order(updated_at: :desc)
+      @estoquefinalitens.each do |item|
+        @estoquefinal << @estoquefinalcliente.where(item: item).first
+      end
     else
       redirect_to root_path
       flash[:danger] = "Você não está logado ou não possui permissão para isso."
@@ -32,8 +36,13 @@ class EstoquefinalsController < ApplicationController
   
   def analise2
     if logged_in? && current_user.cliente.estoque_final == "Sim"
-      @estoquefinal_itens = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:Item_id)
+      @estoquefinalcliente = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
       @estoquefinal = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
+      @estoquefinal_itens = []
+      @estoquefinalitens = Estoquefinal.where(cliente_id: current_user.cliente_id).uniq.pluck(:item_id)
+      @estoquefinalitens.each do |item|
+        @estoquefinal_itens << @estoquefinalcliente.where(item: item).first
+      end
     else
       redirect_to root_path
       flash[:danger] = "Você não está logado ou não possui permissão para isso."

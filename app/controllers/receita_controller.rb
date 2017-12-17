@@ -16,7 +16,13 @@ class ReceitaController < ApplicationController
   # GET /receita/1.json
   def show
     if logged_in? && (current_user.cliente.estoque_mp == "Sim") && (current_user.nivel_usuario == "admin")
-      @receita = Receitum.where(cliente_id: current_user.cliente_id).group(:nome_receita)
+      @receitacliente = Receitum.where(cliente_id: current_user.cliente_id)
+      @receita = []
+      @receitanomes = Receitum.where(cliente_id: current_user.cliente_id).uniq.pluck(:nome_receita)
+      @receitanomes.each do |receitas|
+        @receita << @receitacliente.where(nome_receita: receitas).first
+      end
+      
     end
   end
 

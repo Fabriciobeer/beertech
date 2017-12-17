@@ -20,8 +20,12 @@ class CiclovidasController < ApplicationController
           redirect_to new_ciclovida_path
           flash[:danger] = "Você não possui barris com a situação atualizada ainda. Por favor atualize a situação dos seus barris primeiro."
         end
-        @ciclovida = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item_id)
-        @ciclovidatempo = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item_id)
+        @ciclovidacliente = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
+        @ciclovidaitens = Ciclovida.where(cliente_id: current_user.cliente_id).uniq.pluck(:item_id)
+        @ciclovida = []
+        @ciclovidaitens.each do |item|
+          @ciclovida << @ciclovidacliente.where(item: item).first
+        end
       else
         redirect_to root_path
         flash[:danger] = "Você não está logado ou não possui permissão para isso."
@@ -30,8 +34,12 @@ class CiclovidasController < ApplicationController
   
   def analise3
     if logged_in? && current_user.cliente.ciclo_vida_barril == "Sim"
-      @ciclovida_itens = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc).group(:item_id)
+      @ciclovidaitens = Ciclovida.where(cliente_id: current_user.cliente_id).uniq.pluck(:item_id)
       @ciclovida = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
+      @ciclovida_itens = []
+      @ciclovidaitens.each do |item|
+        @ciclovida_itens << @ciclovida.where(item: item).first
+      end
     else
       redirect_to root_path
       flash[:danger] = "Você não está logado ou não possui permissão para isso."
