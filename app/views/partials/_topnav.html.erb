@@ -13,11 +13,7 @@
             <span class=" fa fa-angle-down"></span>
           </a>
           <ul class="dropdown-menu dropdown-usermenu pull-right">
-            <li>
-              <a href="javascript:;">
-                <span class="badge bg-red pull-right">50%</span>
-                <span>Ajuda</span>
-              </a>
+            <li><%= link_to 'Ajuda', help_path %>
             </li>
             <li><%= link_to 'Logout', logout_path, method: :delete %>
             </li>

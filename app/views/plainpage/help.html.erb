@@ -1,0 +1,207 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Manual de usuário</h3>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+      <% if logged_in? && (current_user.cliente.estoque_mp == "Sim") %>
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" >
+          <div class="x_title">
+            <h2>Manual do serviço de estoque primário</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content" >
+            <h4>Este manual está dividido entre os menus laterais e o funcionamento do sistema.</h4>
+            <h4><b>1) Cadastro de matéria prima</b></h4>
+            <p>Para começar a usar o sistema de auxílio ao estoque primário, para qualquer item que você possua no estoque, você deve executar os seguintes passos:</p>
+            <li>Abrir o menu lateral "Serviço 1: Estoque de matéria prima" e clicar em "Cadastro de matéria prima"</li>
+            <p>     Através dessa página você irá cadastrar cada um dos seus itens do estoque de matéria prima preenchendo nome do item, unidade de medida (ex: unidade), tamanho do pacote (quantidade do item no pacote que você está registrando no sistema). Após isso você deve apertar o botão "Cadastrar matéria prima".</p>
+            <p>     Ex 1: Nome: tampinha de garrafa, unidade de medida: Unidade, Tamanho do pacote: 400</p>
+            <p>     Ex 2: Nome: Malte, unidade de medida</p>
+            <p>     Ainda nessa página, abaixo da parte de cadastro, você pode ver uma lista com as informações de matérias primas já cadastradas no sistema.</p>
+            <br>
+            <h4><b>2) Atualizar entradas e saídas do estoque</b></h4>
+            <p>Para atualizar o estado atual do seu estoque, a cada entrada ou saída, abra o menu lateral "Serviço 1: Estoque de matéria prima" e clique em "Atualizar estoque primário"</p>
+            <li>Selecione o item que você deseja atualizar o estado, a quantidade de pacotes que estão entrando ou saindo, o fornecedor da matéria prima em questão e, por último selecione se é uma entrada desta matéria prima ou se é uma saída do estoque primário. Após isso, clique no botão "Atualizar estoque".</li>
+            <p>Obs: o único item que é opcional nessa atualização é o item fornecedor.</p>
+            <br>
+            <h4><b>3) Menu de análise</b></h4>
+            <p>Neste menu você encontrará informações sobre:</p>
+            <li>As quantidades atual e anterior de cada matéria prima presente no estoque primário no gráfico "Situação atual do estoque".</li>
+            <li>A quantidade de usos de cada fornecedor para que se tenha uma noção de quais fornecedores são utilizados com maior frequência, no gráfico "Uso de fornecedores".</li>
+            <li>Para cada matéria prima presente no estoque primário tem-se também as seguinte informações:</li>
+            <p>&nbsp;&nbsp;- Variação do estoque com dados de quantidade de atualizações do tipo entradas da matéria prima por mês no estoque (linha verde), quantidade de atualizações do tipo saídas por mês no estoque (linha vermelha), e por último, a quantidade da matéria prima presente em estoque ao final de cada mês (linha azul).</p>
+            <p>&nbsp;&nbsp;- Quantidade total de matéria prima consumida durante cada mês.</p>
+            <br>
+            <h4><b>4) Visualização do estoque primário</b></h4>
+            <p>Nessa página você pode visualizar as seguintes informações:</p>
+            <li>A condição do estoque de matéria prima atualmente, ou seja, as quantidades de cada matéria prima presente em estoque.</li>
+            <li>Quais receitas podem ser produzidas, ou não, com as quantidades das matérias primas que estão atualmente no estoque primário.</li>
+            <li>O valor de estoque mínimo indicado para cada mês tendo como base os meses do ano corrente. Você deve multiplicar o valor que é mostrado aqui pelo tempo de entrega (em meses) do fornecedor de cada matéria prima.</li>
+            <br>
+            <h4><b>5) Funcionamento do sistema de estoque primário</b></h4>
+            <p>Para o correto funcionamento do serviço a seguinte sequência deve ser seguida:</p>
+            <li>1) Realizar cadastro das matérias primas todas que estarão presentes no estoque primário.</li>
+            <li>2) Após realizar o cadastro da matéria prima ela estará apta a ser selecionada para atualização da quantidade em estoque.</li>
+            <li>3) A cada entrada ou saída de uma matéria prima do estoque, deve-se ser atualizado quanto entrou/saiu do estoque.</li>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <% end %>
+      <% if logged_in? && (current_user.cliente.estoque_final == "Sim") %>
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" >
+          <div class="x_title">
+            <h2>Manual do serviço de estoque final</h2>
+            
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content" >
+            <h4><p>Este manual está dividido entre os menus laterais e o funcionamento do sistema.</p></h4>
+            <h4><b>1) Cadastro de produto finalizado</b></h4>
+            <p>Para começar a usar o sistema de auxílio ao estoque final, para qualquer produto que você possua no estoque, você deve primeiro cadastrar os produtos que você possui:</p>
+            <li>Abrir o menu lateral "Serviço 2: Estoque de produtos finalizados" e clicar em "Cadastrar produto"</li>
+            <p>     Através dessa página você irá cadastrar cada um dos seus produtos do estoque final preenchendo nome do produto, e utilizando leitor de código de barras para inserir o código de barras do produto.</p>
+            <p><b>Para utilizar o leitor de código de barras, siga os passos abaixo:</b></p>
+            <li>Ligar o bluetooth do seu tablet e selecionar o leitor de código de barras BR-200BT;</li>
+            <li>Inserir o PIN informado na tela de seu tablet, utilizando o leitor de código de barras para ler o código na tabela informada no manual do leitor.</li>
+            <li>Selecionar o campo código de barras no sistema e utilizar o leitor para ler o código de barras do seu produto.</li>
+            <li>Adicionar o nome do produto também e clicar no botão "Adicionar produto"</li>
+            <br>
+            <p>     Ainda nessa página, abaixo da parte de cadastro, você pode ver uma lista com as informações de produtos já cadastrados no sistema.</p>
+            <p>Boas práticas para a escolha do nome do produto incluem dizer exatamente o que é o produto, como por exemplo:</p>
+            <li>Ex 1: Garrafa 600ml Pilsen</li>
+            <li>Ex 2: Caixa de 12 garrafas 600ml Pilsen</li>
+            <li>Ex 3: Barril de 50L Pilsen</li>
+            <br>
+            <h4><b>2) Atualizar estoque final</b></h4>
+            <p>Para atualizar o estado atual do seu estoque, a cada entrada ou saída, abra o menu lateral "Serviço 2: Estoque de produtos finalizados" e clique em "Atualizar estoque final"</p>
+            <li>Selecione o campo "código de barras" e utilize o leitor de código de barras para inserir o código de barras referente ao produto;</li>
+            <li>Insira a quantidade do produto que entrou/saiu do estoque final no campo "quantidade alterada";</li>
+            <li>Insira o destino caso o produto esteja indo para fora da fábrica, no campo "destino";</li>
+            <li>Selecione se é uma entrada no estoque ou uma saída do estoque;</li>
+            <li>Após isso, clique no botão "Atualizar estoque".</li>
+            <br>
+            <h4><b>3) Menu de análise</b></h4>
+            <p>Neste menu você encontrará informações sobre:</p>
+            <li>As quantidades atual e anterior de cada produto presente no estoque final no gráfico "Situação atual do estoque final".</li>
+            <li>Para cada produto presente no estoque final tem-se também as seguinte informações:</li>
+            <p>&nbsp;&nbsp;- Variação do estoque com dados de quantidade de atualizações do tipo entradas do produto por mês no estoque (linha verde), quantidade de atualizações do tipo saídas por mês no estoque (linha vermelha), e por último, a quantidade do produto presente em estoque ao final de cada mês (linha azul).</p>
+            <p>&nbsp;&nbsp;- Quantidade total do produto produzido durante cada mês.</p>
+            <br>
+            <h4><b>4) Visualização do estoque final</b></h4>
+            <p>Nessa página você pode visualizar as seguintes informações:</p>
+            <li>A condição do estoque final atualmente, ou seja, as quantidades de cada produto presente em estoque na tabela "estoque de produtos atual".</li>
+            <li>Quanto tempo cada produto permanece parado em estoque desde sua últiam atualização e o tempo máximo que ele já permaneceu em estoque, na tabela "variação de produtos no estoque".</li>
+            <li>Um gráfico comparando os tempos parados atuais em estoque com os tempos máximos parados em estoque de cada produto.</li>
+            <br>
+            <h4><b>5) Funcionamento do sistema de estoque final</b></h4>
+            <p>Para o correto funcionamento do serviço a seguinte sequência deve ser seguida:</p>
+            <li>1) Realizar cadastro dos produtos todos que estarão presentes no estoque final.</li>
+            <li>2) Após realizar o cadastro do produto, ele estará apto a ser selecionado para atualização da quantidade em estoque, através do uso do leitor de código de barras.</li>
+            <li>3) A cada entrada ou saída de um produto do estoque, deve-se ser atualizado quanto entrou/saiu do estoque.</li>
+          </div>        
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <% end %>
+      <% if logged_in? && (current_user.cliente.ciclo_vida_barril == "Sim") %>
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" >
+          <div class="x_title">
+            <h2>Manual do serviço de ciclo de vida dos barris</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content" >
+            <h4><p>Este manual está dividido entre os menus laterais e o funcionamento do sistema.</p></h4>
+            <h4><b>1) Cadastrar barril</b></h4>
+            <p>Para começar a usar o sistema de ciclo de vida do barril na fábrica, você deve primeiro cadastrar os barris que você possui:</p>
+            <li>Abrir o menu lateral "Serviço 3: Ciclo de vida de barris" e clicar em "Cadastrar barril"</li>
+            <p>     Através dessa página você irá cadastrar cada um dos seus barris preenchendo nome do produto, e utilizando leitor de código de barras para inserir o código de barras do produto.</p>
+            <p><b>Para utilizar o leitor de código de barras, siga os passos abaixo:</b></p>
+            <li>Ligar o bluetooth do seu tablet e selecionar o leitor de código de barras BR-200BT;</li>
+            <li>Inserir o PIN informado na tela de seu tablet, utilizando o leitor de código de barras para ler o código na tabela informada no manual do leitor.</li>
+            <li>Selecionar o campo código de barras no sistema e utilizar o leitor para ler o código de barras do seu produto.</li>
+            <li>Adicionar um nome para o barril também e clicar no botão "Adicionar produto"</li>
+            <br>
+            <p>     Ainda nessa página, abaixo da parte de cadastro, você pode ver uma lista com as informações de produtos já cadastrados no sistema.</p>
+            <br>
+            <h4><b>2) Atualizar localização dos barris</b></h4>
+            <p>Para atualizar a localização dos seus barris, a cada entrada ou saída, abra o menu lateral "Serviço 3: Ciclo de vida de barris" e clique em "Atualizar localização de barris"</p>
+            <li>Selecione o campo "código de barras" e utilize o leitor de código de barras para inserir o código de barras referente ao produto;</li>
+            <li>Clique fora dos campos para o sistema preencher automaticamente as informações sobre o barril e verifique elas antes de prosseguir;</li>
+            <li>Insira o tipo de cerveja que está sendo colocado no barril caso o mesmo esteja indo para a câmara fria no campo "Tipo de cerveja";</li>
+            <li>Após isso, clique no botão "Atualizar".</li>
+            <br>
+            <h4><b>3) Menu de análise</b></h4>
+            <p>Neste menu você encontrará informações sobre:</p>
+            <li>As quantidades de uso total de cada barril no gráfico "Quantidade de usos de cada barril".</li>
+            <li>As quantidades de uso total de cada barril na tabela "Quantidade de usos de cada barril"</li>
+            <li>As quantidades de barris em cada uma dos 4 estados: Barris sujos e vazios, barris limpos e vazios, barris na câmara fria cheios, barris fora da fábrica.</li>
+            <br>
+            <h4><b>4) Localização dos barris</b></h4>
+            <p>Nessa página você pode visualizar as seguintes informações:</p>
+            <li>A condição de cada barril atualmente na tabela "Estoque de barris".</li>
+            <li>Os barris que estão fora da fábrica a 6 dias ou mais e precisam ser recolhidos na tabela "Barris fora da fábrica a mais tempo".</li>
+            <br>
+            <h4><b>5) Funcionamento do sistema de ciclo de vida de barris</b></h4>
+            <p>Para o correto funcionamento do serviço a seguinte sequência deve ser seguida:</p>
+            <li>1) Realizar cadastro dos barris todos.</li>
+            <li>2) Após realizar o cadastro do barril, ele estará apto a ser selecionado para atualização da localização e estado, através do uso do leitor de código de barras.</li>
+            <li>3) A cada mudança de local do barril, deve-se ser atualizado onde ele está utilizando o código de barras como explicado no item 2 deste manual.</li>
+          </div>        
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <% end %>
+      <% if logged_in? && (current_user.nivel_usuario == "admin") && (current_user.cliente.estoque_mp == "Sim") %>
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" >
+          <div class="x_title">
+            <h2>Manual do administrador</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content" >
+            <h4>Este manual está dividido entre os menus laterais e o funcionamento do sistema.</h4>
+            <h4><b>1) Criar novo usuário</b></h4>
+            <p>Apenas o primeiro usuário criado terá privilégios de administrador e poderá adicionar novos usuários. Para isso, o administrador deverá abrir o menu lateral "Admin" e clicar em "Criar novo usuário"</p>
+            <li>O admin deverá inserir as informações pedidas no formulário e após inserí-las clicar no botão "Criar novo usuário"</li>
+            <br>
+            <p>Ainda nesta página o administrador consegue visualizar todos os usuários cadastrados pela sua cervejaria e também editar ou deletar as informações desses usuários.</p>
+            <p>Para editar as informações de um usuário, o administrador deve clicar no link de edição do usuário em questão na tabela "Usuários cadastrados"</p>
+            <p>Para deletar um usuário, o administrador deve clicar em deletar o usuário em questão na tabela "Usuários cadastrados" e confirmar a operação</p>
+            <br>
+            <h4><b>2) Cadastro de receita/ingrediente</b></h4>
+            <p>Para conseguir cadastrar uma receita, você precisa cadastrar cada ingrediente em separado sob o mesmo nome da receita em questão. Para isso, o administrador deverá abrir o menu lateral "Admin" e clicar em "Cadastro de receita/ingrediente"</p>
+            <li>O admin deverá inserir as informações pedidas no formulário e após inserí-las clicar no botão "Cadastrar nova receita", realizando isso para cada ingrediente da receita</li>
+            <p>Obs: A unidade de cada ingrediente da receita deve ser convertida para a quantidade utilizada em gramas, mililitros ou unidade (no caso de unidades físicas, por exemplo tampinhas ou garrafas)</p>
+            <p>O item só estará disponível para seleção na receita após serr cadastrado como matéria prima no "serviço 1: estoque de matéria prima"</p>
+            <p>Exemplo de preenchimento para receita de pilsen:</p>
+            <p>Ingrediente 1:</p>
+            <li>Nome da receita: Pilsen 400 garrafas</li>
+            <li>Item usado: tampinha, quantidade usada: 400, unidade de medida: unidade</li>
+            <p>Ingrediente 2:</p>
+            <li>Nome da receita: Pilsen 400 garrafas</li>
+            <li>Item usado: malte 1, quantidade usada: 1000, unidade de medida: gramas</li>
+            <br>
+            <p>Ainda nesta página o administrador consegue visualizar todos os ingredientes cadastrados de cada receita da sua cervejaria e também editar ou deletar as informações desses ingredientes/receitas.</p>
+            <br>
+            <h4><b>3) Visualização de receitas</b></h4>
+            <p>Nesta página o administrador tem acesso a todas as receitas já cadastradas com todas as informações dos ingredientes de cada receita. Com isso o administrador pode editar ingredientes ou mesmo deletá-los de cada receita.</p>
+           
+          </div>        
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <% end %>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>

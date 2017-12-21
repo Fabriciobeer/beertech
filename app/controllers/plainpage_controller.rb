@@ -10,6 +10,12 @@ class PlainpageController < ApplicationController
     #flash[:danger ] = "Naomi let the dog out!"
     
   end
+  
+  def help
+    if logged_in?
+      
+    end
+  end
 
   def index2
     if !logged_in?

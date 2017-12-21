@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   get 'estoquemps/saida', to: 'estoquemps#saida'
   get 'signup', to: 'clientes#new'
   get 'criarsegundouser', to: 'users#new2'
+  get 'help', to: 'plainpage#help'
   
  # get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'

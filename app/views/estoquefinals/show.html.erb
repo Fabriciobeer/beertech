@@ -50,7 +50,7 @@
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="x_panel">
               <div class="x_title">
-                <h2>Variação do estoque por mês</h2>
+                <h2>Variação de produtos no estoque</h2>
                 <div class="clearfix"></div>
               </div>
               <div class="x_content" >
@@ -72,17 +72,17 @@
                   <% saida = @estoquefinalsaida.where(item_id: itemid).last %>
                   <% if saida == nil %>
                     <% @estoquefinalentrada.where(item_id: itemid).last.update(tempo_maximo_guardado: (Time.current.to_date - @estoquefinalentrada.where(item_id: itemid).last.created_at.to_date).to_i)  %>
-                    <td><%= (Time.current.to_date - @estoquefinalentrada.where(item_id: itemid).last.created_at.to_date).to_i %></td>
+                    <td><%= (Time.current.to_date - @estoquefinalentrada.where(item_id: itemid).last.created_at.to_date).to_i %> dias</td>
                   <% else %>
                     <% dias = (@estoquefinalsaida.where(item_id: itemid).last.created_at.to_date - @estoquefinalentrada.where(item_id: itemid).last.created_at.to_date).to_i %>
-                    <td><%= dias %></td>
+                    <td><%= dias %> dias</td>
                     <% if @estoquefinalentrada.where(item_id: itemid).last.tempo_maximo_guardado <= dias || @estoquefinalentrada.where(item_id: itemid).last.tempo_maximo_guardado == nil %>
                       <% @estoquefinalentrada.where(item_id: itemid).last.update(tempo_maximo_guardado: dias) %>
                     <% end %>
                   <% end %>
                   
                   
-                  <td><%= @estoquefinalentrada.where(item_id: itemid).last.tempo_maximo_guardado %></td>
+                  <td><%= @estoquefinalentrada.where(item_id: itemid).last.tempo_maximo_guardado %> dias</td>
                   
                 </tr>
               <% end %>
