@@ -31,7 +31,7 @@
           </div>
           <div class="field">
             <%= f.label :unidade_de_medida %><br>
-            <%= f.select :unidades, ["grama", "mL", "unidade"] %>
+            <%= f.select :unidades, ["kilograma", "mL", "unidade"] %>
           </div>
           <div class="field">
             <%= f.label :tamanho_pacote %><br>
@@ -62,16 +62,24 @@
               <th>Matéria prima</th>
               <th>Tamanho do pacote</th>
               <th>Unidade de medida</th>
+              <th>Editar</th>
+              <th>Deletar</th>
             </tr>
           </thead>
           <tbody>
             <% materiasprima = Materiaprima.where(cliente_id: current_user.cliente_id) %>
             <% materiasprima.each do |materiasprimas| %>
               <tr>
-                <th><%= materiasprimas.id %></th>
-                <th><%= materiasprimas.item %></th>
-                <th><%= materiasprimas.tamanho_pacote %></th>
-                <th><%= materiasprimas.unidades %></th>
+                <td><%= materiasprimas.id %></td>
+                <td><%= materiasprimas.item %></td>
+                <td><%= materiasprimas.tamanho_pacote %></td>
+                <td><%= materiasprimas.unidades %></td>
+                <td><%= link_to 'Editar', edit_materiaprima_path(materiasprimas) %></td>
+                <% if current_user.nivel_usuario == "admin" %>
+                  <td><%= link_to 'Delete', materiaprima_path(materiasprimas), method: :delete, data: {confirm: "Você tem certeza?"} %></td>
+                <% else %>
+                  <td>opção não disponível</td>
+                <% end %>
               </tr>
             <% end %>
           </tbody>

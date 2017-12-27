@@ -29,7 +29,7 @@ class MateriaprimasController < ApplicationController
 
   # GET /materiaprimas/1/edit
   def edit
-    redirect_to root_path
+    
   end
 
   # POST /materiaprimas
@@ -53,7 +53,7 @@ class MateriaprimasController < ApplicationController
   def update
     respond_to do |format|
       if @materiaprima.update(materiaprima_params)
-        format.html { redirect_to @materiaprima, flash: { success: 'Materia prima atualizada com sucesso.' } }
+        format.html { redirect_to new_materiaprima_path, flash: { success: 'Materia prima atualizada com sucesso.' } }
         format.json { render :show, status: :ok, location: @materiaprima }
       else
         format.html { render :edit }

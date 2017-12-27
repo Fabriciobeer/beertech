@@ -1,0 +1,56 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Editar matéria prima</h3>
+      </div>
+    </div>
+    <%= form_for(@materiaprima) do |f| %>
+      <% if @materiaprima.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@materiaprima.errors.count, "error") %> prohibited this materia prima from being saved:</h2>
+          <ul>
+          <% @materiaprima.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <div class="field">
+              <%= f.label :cliente_id %><br>
+              <input type="text" class="form-control" readonly="readonly" placeholder= <%= current_user.cliente.nome_cervejaria %> >
+            </div>
+            <div class="field">
+              <%= f.label :Nome_do_item %><br>
+              <%= f.text_field :item, class: "form-control", placeholder: "Nome do item", autofocus: true %>
+            </div>
+            <div class="field">
+              <%= f.label :unidade_de_medida %><br>
+              <%= f.select :unidades, ["kilograma", "mL", "unidade"] %>
+            </div>
+            <div class="field">
+              <%= f.label :tamanho_pacote %><br>
+              <%= f.number_field :tamanho_pacote, class: "form-control", placeholder: "#", autofocus: true %>
+            </div>
+            <br>
+            <div class="actions">
+              <%= f.submit "Editar matéria prima", class: 'btn btn-primary btn-lg' %>
+              <%= link_to 'Voltar', new_materiaprima_path, :class => "btn btn-link btn-lg", :method => "get" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+
+
+
+
+
+

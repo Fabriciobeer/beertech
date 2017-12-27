@@ -112,76 +112,7 @@
       </div>
     </div>
     <div class="clearfix"></div>
-    <div class="col-md-12 col-sm-12 col-xs-12">
-      <div class="x_panel">
-        <div class="x_title">
-          <h2>Estoque mínimo indicados para o ano de <%= Time.current.year %>, multiplicar pelo tempo de entrega do fornecedor para saber o valor</h2>
-          <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-          <table id="datatable-responsive2" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Janeiro</th>
-                <th>Fevereiro</th>
-                <th>Março</th>
-                <th>Abril</th>
-                <th>Maio</th>
-                <th>Junho</th>
-                <th>Julho</th>
-                <th>Agosto</th>
-                <th>Setembro</th>
-                <th>Outubro</th>
-                <th>Novembro</th>
-                <th>Dezembro</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% meses_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %>
-              <% array_itens = @estoquempcliente.map(&:item).uniq %>
-              <% array_itens.each do |itens| %>
-              
-                <tr>
-                  <th><%= itens %></th>
-                  <% datai4_array =[] %>
-                  <% meses_array.each do |mes| %>
-                    <% if mes < 12 %>
-                        <% proximo_mes = mes +1 %>
-                        <% proximo_ano = Time.current.year %>
-                    <% else %>
-                      <% proximo_mes = 1 %>
-                      <% proximo_ano = Time.current.year + 1 %>
-                    <% end %>
-                    <% data_i4 = @estoquempcliente.where("created_at >= ? and created_at < ? and atualizar = ? and item = ?", Time.mktime(Time.current.year, mes), Time.mktime(proximo_ano, proximo_mes), "Saída", itens) %>
-                    <% if data_i4 != nil %>
-                      <% data_soma = data_i4.sum(:quantidade_atual) %>
-                      <% datai4_array << data_soma %>
-                    <% else %>
-                      <% datai4_array << 0 %>
-                    <% end %>
-                  
-                  <% end %>
-                  <th><%= datai4_array[0] %></th>
-                  <th><%= datai4_array[1] %></th>
-                  <th><%= datai4_array[2] %></th>
-                  <th><%= datai4_array[3] %></th>
-                  <th><%= datai4_array[4] %></th>
-                  <th><%= datai4_array[5] %></th>
-                  <th><%= datai4_array[6] %></th>
-                  <th><%= datai4_array[7] %></th>
-                  <th><%= datai4_array[8] %></th>
-                  <th><%= datai4_array[9] %></th>
-                  <th><%= datai4_array[10] %></th>
-                  <th><%= datai4_array[11] %></th>
-                </tr>
-              
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+   
   </div>
   <div class="clearfix"></div>
 </div>
