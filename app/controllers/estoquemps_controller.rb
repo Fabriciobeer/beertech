@@ -134,7 +134,7 @@ class EstoquempsController < ApplicationController
         redirect_to root_path
         flash[:danger] = "Voce não possui itens cadastrados no estoque ainda!"
       else
-        @estoquemp = Estoquemp.find(params[:id])
+        @estoquemp = Estoquemp.where(cliente_id: current_user.cliente_id).first
       end
     end
 

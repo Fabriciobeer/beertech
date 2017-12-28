@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   get 'signup', to: 'clientes#new'
   get 'criarsegundouser', to: 'users#new2'
   get 'help', to: 'plainpage#help'
+  get 'newbarril', to: 'items#newbarril'
   
  # get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
@@ -59,6 +60,7 @@ Rails.application.routes.draw do
   get 'analise1', to: 'estoquemps#analise1'
   get 'analise2', to: 'estoquefinals#analise2'
   get 'analise3', to: 'ciclovidas#analise3'
+  get 'editbarril', to: 'items#editbarril'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

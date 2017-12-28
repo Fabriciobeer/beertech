@@ -65,9 +65,10 @@ class MateriaprimasController < ApplicationController
   # DELETE /materiaprimas/1
   # DELETE /materiaprimas/1.json
   def destroy
+    Estoquemp.where(cliente_id: current_user.cliente_id, item: @materiaprima.item).delete_all
     @materiaprima.destroy
     respond_to do |format|
-      format.html { redirect_to materiaprimas_url, notice: 'Materiaprima was successfully destroyed.' }
+      format.html { redirect_to new_materiaprima_path, notice: 'Materiaprima was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

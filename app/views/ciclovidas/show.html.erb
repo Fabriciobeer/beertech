@@ -15,8 +15,8 @@
           <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>Id do item</th>
                 <th>Item</th>
+                <th>Capacidade do barril</th>
                 <th>Localização do produto</th>
                 <th>Tempo no cliente, caso fora da fábrica</th>
                 <th>Tipo de cerveja, caso barril esteja na câmara fria</th>
@@ -26,8 +26,8 @@
             <tbody>
               <% @ciclovida.each do |ciclovida| %>
                 <tr>
-                  <td><%= ciclovida.id %></td>
                   <td><%= ciclovida.item.item_name %></td>
+                  <td><%= ciclovida.item.tamanho_barril %></td>
                   <td><%= ciclovida.localizacao %></td>
                   <% if ciclovida.localizacao == "Estoque final. Sujo e vazio" || ciclovida.localizacao == "Estoque de barris. Limpo e vazio" || ciclovida.localizacao == "Câmara fria. Cheio" %>
                     <td><%= " " %></td>
@@ -55,8 +55,8 @@
           <table id="datatable-responsive2" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>Id do item</th>
                 <th>Item</th>
+                <th>Capacidade do barril</th>
                 <th>Localização do produto</th>
                 <th>Tempo no cliente, caso fora da fábrica</th>
                 <th>Tipo de cerveja, caso barril esteja na câmara fria</th>
@@ -68,8 +68,8 @@
                 <% tempo_no_cliente = (Time.current.day - ciclovida.updated_at.day).to_i %>
                 <% if ciclovida.localizacao != "Estoque final. Sujo e vazio" && ciclovida.localizacao != "Estoque de barris. Limpo e vazio" && ciclovida.localizacao != "Câmara fria. Cheio" && tempo_no_cliente >= 5 %>
                   <tr>
-                    <td><%= ciclovida.id %></td>
                     <td><%= ciclovida.item.item_name %></td>
+                    <td><%= ciclovida.item.tamanho_barril %></td>
                     <td><%= ciclovida.localizacao %></td>
                     <td><%= tempo_no_cliente.to_s + " dias" %></td>
                     <td><%= ciclovida.tipo_cerveja %></td>
@@ -82,7 +82,129 @@
         </div>
       </div>
     </div>
-    
+    <% array_itens = [] %>
+    <% array_itensid = [] %>
+    <% array_tamanho = [] %>
+    <% @ciclovida.each do |ciclovida| %>
+      <% array_itensid << ciclovida.item_id %>
+      <% array_itens << ciclovida.item.item_name %>
+      <% array_tamanho << ciclovida.item.tamanho_barril %>
+    <% end %>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="row">
+          <div class="x_title">
+            <h2>Informações dos barris</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Quantidade de barris em cada localização</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content" >
+                <table id="datatable-responsive3" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Barris sujos</th>
+                      <th>Barris limpos</th>
+                      <th>Barris na câmara fria</th>
+                      <th>Fora da fábrica</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% sujo = 0 %>
+                    <% limpo = 0 %>
+                    <% cheio = 0 %>
+                    <% fora = 0 %>
+                    <tr>
+                      <% array_itensid.each do |itensid| %>
+                        <% if @ciclovidacliente.where(item_id: itensid).first.localizacao == "Estoque final. Sujo e vazio" %>
+                          <% sujo = sujo + 1 %>
+                        <% end %>
+                        <% if @ciclovidacliente.where(item_id: itensid).first.localizacao == "Estoque de barris. Limpo e vazio" %>
+                          <% limpo = limpo + 1 %>
+                        <% end %>
+                        <% if @ciclovidacliente.where(item_id: itensid).first.localizacao == "Câmara fria. Cheio" %>
+                          <% cheio = cheio + 1 %>
+                        <% end %>
+                        <% if @ciclovidacliente.where(item_id: itensid).first.localizacao != "Estoque final. Sujo e vazio" && @ciclovidacliente.where(item_id: itensid).first.localizacao != "Estoque de barris. Limpo e vazio" && @ciclovidacliente.where(item_id: itensid).first.localizacao != "Câmara fria. Cheio" %>
+                          <% fora = fora + 1 %>
+                        <% end %>
+                      <% end %>
+                      <td><%= sujo %></td>
+                      <td><%= limpo %></td>
+                      <td><%= cheio %></td>
+                      <td><%= fora %></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Quantidade de barris em cada localização por capacidade</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content" >
+                <table id="datatable-responsive4" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Capacidade do barril</th>
+                      <th>Barris sujos</th>
+                      <th>Barris limpos</th>
+                      <th>Barris na câmara fria</th>
+                      <th>Fora da fábrica</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <% array_tamanho.each do |tamanho| %>
+                    <% totalsujo = 0 %>
+                    <% totallimpo = 0 %>
+                    <% totalcheio = 0 %>
+                    <% totalfora = 0 %>
+                    <% sujo = 0 %>
+                    <% limpo = 0 %>
+                    <% cheio = 0 %>
+                    <% fora = 0 %>
+                    <tr>
+                      <% array_itensid.each do |itensid| %>
+                        <% if (@ciclovidacliente.where(item_id: itensid).first.localizacao == "Estoque final. Sujo e vazio") && (@ciclovidacliente.where(item_id: itensid).first.item.tamanho_barril == tamanho) %>
+                          <% sujo = sujo + 1 %>
+                        <% end %>
+                        <% if (@ciclovidacliente.where(item_id: itensid).first.localizacao == "Estoque de barris. Limpo e vazio") && (@ciclovidacliente.where(item_id: itensid).first.item.tamanho_barril == tamanho) %>
+                          <% limpo = limpo + 1 %>
+                        <% end %>
+                        <% if (@ciclovidacliente.where(item_id: itensid).first.localizacao == "Câmara fria. Cheio") && (@ciclovidacliente.where(item_id: itensid).first.item.tamanho_barril == tamanho) %>
+                          <% cheio = cheio + 1 %>
+                        <% end %>
+                        <% if (@ciclovidacliente.where(item_id: itensid).first.localizacao != "Estoque final. Sujo e vazio" && @ciclovidacliente.where(item_id: itensid).first.localizacao != "Estoque de barris. Limpo e vazio" && @ciclovidacliente.where(item_id: itensid).first.localizacao != "Câmara fria. Cheio") && (@ciclovidacliente.where(item_id: itensid).first.item.tamanho_barril == tamanho) %>
+                          <% fora = fora + 1 %>
+                        <% end %>
+                      <% end %>
+                      <% totalsujo = totalsujo + sujo %>
+                      <% totallimpo = totallimpo + limpo %>
+                      <% totalcheio = totalcheio + cheio %>
+                      <% totalfora = totalfora + fora %>
+                      <td><%= tamanho %></td>
+                      <td><%= totalsujo %></td>
+                      <td><%= totallimpo %></td>
+                      <td><%= totalcheio %></td>
+                      <td><%= totalfora %></td>
+                    </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -128,6 +250,7 @@
     $('#datatable-responsive').DataTable();
     $('#datatable-responsive2').DataTable();
     $('#datatable-responsive3').DataTable();
+    $('#datatable-responsive4').DataTable();
     $('#datatable-scroller').DataTable({
       ajax: "js/datatables/json/scroller-demo.json",
       deferRender: true,

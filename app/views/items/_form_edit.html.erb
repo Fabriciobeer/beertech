@@ -1,0 +1,45 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Editar Item</h3>
+      </div>
+    </div>
+    <%= form_for(@item) do |f| %>
+      <% if @item.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
+          <ul>
+          <% @item.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <div class="field">
+              <%= f.label :nome_cervejaria %><br>
+              <input type="text" class="form-control" readonly="readonly" placeholder= <%= current_user.cliente.nome_cervejaria %> >
+            </div>
+            <div class="field">
+              <%= f.label :Produto %><br>
+              <%= f.text_field :item_name, class: "form-control", placeholder: "Nome do produto", autofocus: true %>
+            </div>
+            <div class="field">
+              <%= f.label :Codigo_de_barras %><br>
+              <%= f.text_field :barcode, class: "form-control", placeholder: "Código de barras", autofocus: true %>
+            </div>
+            <br>
+            <div class="actions">
+              <%= f.submit "Editar item", class: 'btn btn-primary btn-lg' %>
+              <%= link_to 'Voltar', new_item_path, :class => "btn btn-link btn-lg", :method => "get" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="clearfix"></div>
+</div>

@@ -55,6 +55,10 @@
               <%= f.label :destino %><br>
               <%= f.text_field :destino, class: "form-control", placeholder: "Destino do produto se estiver saindo da fábrica", autofocus: true %>
             </div>
+            <div class="field">
+              <%= f.label :lote %><br>
+              <%= f.text_field :lote, class: "form-control", placeholder: "Lote do produto produzido", autofocus: true %>
+            </div>
             <div class = "field">
               <%= f.label :Atualizar %><br>
               <%= f.select :atualizar, ["Entrada","Saída"] %>

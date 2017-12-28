@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171207143602) do
+ActiveRecord::Schema.define(version: 20171228142454) do
 
   create_table "ciclovidas", force: :cascade do |t|
     t.integer  "cliente_id"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20171207143602) do
     t.integer  "tempo_maximo_guardado"
     t.integer  "quantidade_entrada"
     t.integer  "quantidade_saida"
+    t.string   "lote"
   end
 
   create_table "estoquemps", force: :cascade do |t|
@@ -59,8 +60,9 @@ ActiveRecord::Schema.define(version: 20171207143602) do
     t.string   "item_name"
     t.string   "barcode"
     t.integer  "cliente_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "tamanho_barril"
   end
 
   create_table "materiaprimas", force: :cascade do |t|

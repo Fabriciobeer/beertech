@@ -21,12 +21,12 @@ class EstoquefinalsController < ApplicationController
         flash[:danger] = "Você não possui itens em estoque ainda para mostrar. Por favor atualize seu estoque final primeiro."
       end
       @estoquefinalcliente = Estoquefinal.where(cliente_id: current_user.cliente_id).order(updated_at: :desc)
-      @estoquefinalitens = Estoquefinal.where(cliente_id: current_user.cliente_id).uniq.pluck(:item_id)
+      @estoquefinalitens = Estoquefinal.where(cliente_id: current_user.cliente_id).uniq.pluck(:item_id, :lote)
       @estoquefinal = []
       @estoquefinalentrada = Estoquefinal.where(cliente_id: current_user.cliente_id, atualizar: "Entrada").order(updated_at: :desc)
       @estoquefinalsaida = Estoquefinal.where(cliente_id: current_user.cliente_id, atualizar: "Saída").order(updated_at: :desc)
       @estoquefinalitens.each do |item|
-        @estoquefinal << @estoquefinalcliente.where(item: item).first
+        @estoquefinal << @estoquefinalcliente.where(item: item[0], lote: item[1]).first
       end
     else
       redirect_to root_path
@@ -91,17 +91,17 @@ class EstoquefinalsController < ApplicationController
     @estoquefinal.cliente_id = current_user.cliente_id
     @estoquefinal.item_id = params[:item_id]
     
-    if !Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).empty? && @estoquefinal.atualizar == "Entrada"
+    if !Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item, lote: @estoquefinal.lote).empty? && @estoquefinal.atualizar == "Entrada"
       
-      quantidade_velha = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).last.quantidade_atual
+      quantidade_velha = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item, lote: @estoquefinal.lote).last.quantidade_atual
       quantidade_nova = @estoquefinal.quantidade_atual
       @estoquefinal.quantidade_entrada = quantidade_nova
       @estoquefinal.quantidade_atual = quantidade_nova + quantidade_velha
     end
   
   
-    if !Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).empty? && @estoquefinal.atualizar == "Saída"
-      quantidade_velha = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item).last.quantidade_atual
+    if !Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item, lote: @estoquefinal.lote).empty? && @estoquefinal.atualizar == "Saída"
+      quantidade_velha = Estoquefinal.where(cliente_id: current_user.cliente_id, item: @estoquefinal.item, lote: @estoquefinal.lote).last.quantidade_atual
       quantidade_nova = @estoquefinal.quantidade_atual
       @estoquefinal.quantidade_saida = quantidade_nova
       @estoquefinal.quantidade_atual = quantidade_velha - quantidade_nova
@@ -159,14 +159,14 @@ class EstoquefinalsController < ApplicationController
         redirect_to root_path
         flash[:danger] = "Voce não possui itens cadastrados no estoque final ainda!"
       else
-        @estoquefinal = Estoquefinal.find(params[:id])
+        @estoquefinal = Estoquefinal.where(cliente_id: current_user.cliente_id).first
       end
       
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def estoquefinal_params
-      params.require(:estoquefinal).permit(:item_id, :cliente_id, :quantidade_atual, :destino, :atualizar)
+      params.require(:estoquefinal).permit(:item_id, :cliente_id, :quantidade_atual, :destino, :atualizar, :lote)
     end
     
     def outro_param

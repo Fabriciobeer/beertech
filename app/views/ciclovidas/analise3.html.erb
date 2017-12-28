@@ -41,7 +41,7 @@
                 <div class="clearfix"></div>
               </div>
               <div class="x_content" >
-                <table id="datatable-responsive2" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th>Id do item</th>
@@ -131,47 +131,101 @@
     <div class="clearfix"></div>
     <div id="notif-group" class="tabbed_notifications"></div>
 </div>
-
-  <script>
-    Chart.defaults.global.legend = {
-      enabled: false
-    };
-
-    // Bar chart uso total de barris
-    var ctx1 = document.getElementById("usostotalChart");
-    var usostotalChart = new Chart(ctx1, {
-      type: 'bar',
-
-          
-      data: {
-         
-      labels: <%= raw array_itens.to_json %>,
-        datasets: [{
-          label: 'Quantidade de usos total',
-          backgroundColor: "#26B99A",
-        <% data_array =[] %>
-          <% array_itensid.each do |itensid| %>
-            <% data = (@ciclovida.where(item_id: itensid).count - @ciclovida.where(item_id: itensid, localizacao: "Estoque final. Sujo e vazio").count - @ciclovida.where(item_id: itensid, localizacao: "Câmara fria. Cheio").count - @ciclovida.where(item_id: itensid, localizacao: "Estoque de barris. Limpo e vazio").count )%>
-            <% data_array << data %> 
-          <% end %>
-          data: <%= data_array.select.to_json %>
-
-        }]
-      },
-
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
+<script>
+  var handleDataTableButtons = function() {
+      "use strict";
+      0 !== $("#datatable-buttons").length && $("#datatable-buttons").DataTable({
+        dom: "Bfrtip",
+        buttons: [{
+          extend: "copy",
+          className: "btn-sm"
+        }, {
+          extend: "csv",
+          className: "btn-sm"
+        }, {
+          extend: "excel",
+          className: "btn-sm"
+        }, {
+          extend: "pdf",
+          className: "btn-sm"
+        }, {
+          extend: "print",
+          className: "btn-sm"
+        }],
+        responsive: !0
+      })
+    },
+    TableManageButtons = function() {
+      "use strict";
+      return {
+        init: function() {
+          handleDataTableButtons()
         }
       }
+    }();
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datatable').dataTable();
+    $('#datatable-keytable').DataTable({
+      keys: true
     });
+    $('#datatable-responsive').DataTable();
+    $('#datatable-responsive2').DataTable();
+    $('#datatable-responsive3').DataTable();
+    $('#datatable-scroller').DataTable({
+      ajax: "js/datatables/json/scroller-demo.json",
+      deferRender: true,
+      scrollY: 380,
+      scrollCollapse: true,
+      scroller: true
+    });
+    var table = $('#datatable-fixed-header').DataTable({
+      fixedHeader: true
+    });
+  });
+  TableManageButtons.init();
+</script>
+<script>
+  Chart.defaults.global.legend = {
+    enabled: false
+  };
+
+  // Bar chart uso total de barris
+  var ctx1 = document.getElementById("usostotalChart");
+  var usostotalChart = new Chart(ctx1, {
+    type: 'bar',
+
+        
+    data: {
+       
+    labels: <%= raw array_itens.to_json %>,
+      datasets: [{
+        label: 'Quantidade de usos total',
+        backgroundColor: "#26B99A",
+      <% data_array =[] %>
+        <% array_itensid.each do |itensid| %>
+          <% data = (@ciclovida.where(item_id: itensid).count - @ciclovida.where(item_id: itensid, localizacao: "Estoque final. Sujo e vazio").count - @ciclovida.where(item_id: itensid, localizacao: "Câmara fria. Cheio").count - @ciclovida.where(item_id: itensid, localizacao: "Estoque de barris. Limpo e vazio").count )%>
+          <% data_array << data %> 
+        <% end %>
+        data: <%= data_array.select.to_json %>
+
+      }]
+    },
+
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 
 
-  </script>
+</script>
   
 
   

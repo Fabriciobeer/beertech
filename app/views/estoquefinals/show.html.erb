@@ -15,8 +15,8 @@
           <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>Id do item</th>
                 <th>Item</th>
+                <th>Lote</th>
                 <th>Quantidade atual em estoque</th>
                 <th>Destino do produto</th>
                 <th>Última atualização</th>
@@ -26,8 +26,8 @@
             <tbody>
               <% @estoquefinal.each do |estoquefinal| %>
                 <tr>
-                  <td><%= estoquefinal.id %></td>
                   <td><%= estoquefinal.item.item_name %></td>
+                  <td><%= estoquefinal.lote %></td>
                   <td><%= estoquefinal.quantidade_atual %></td>
                   <td><%= estoquefinal.destino %></td>
                   <td><%= estoquefinal.atualizar %></td>
@@ -58,6 +58,7 @@
             <thead>
               <tr>
                 <th>Item</th>
+                <th>Lote</th>
                 <th>Data de entrada no estoque</th>
                 <th>Tempo decorrido desde última saída e última entrada</th>
                 <th>Tempo máximo estocado</th>
@@ -68,6 +69,7 @@
                 <% itemid = estoquefinal.item_id %>
                 <tr>
                   <td><%= estoquefinal.item.item_name %></td>
+                  <td><%= estoquefinal.lote %></td>
                   <td><%= estoquefinal.updated_at.to_date %></td>
                   <% saida = @estoquefinalsaida.where(item_id: itemid).last %>
                   <% if saida == nil %>
@@ -129,9 +131,10 @@
         <% array_itens = [] %>
         <% data_array1 = [] %>
         <% data_array2 = [] %>
+        <% array_lote = [] %>
        <% @estoquefinal.each do |estoquefinal| %>
-       <% itemid = estoquefinal.item_id %>
-         <% array_itens << estoquefinal.item.item_name %>
+         <% itemid = estoquefinal.item_id %>
+         <% array_itens << estoquefinal.item.item_name + " lote " + estoquefinal.lote %>
        <% end %>
       labels: <%= raw array_itens.to_json %>,
       

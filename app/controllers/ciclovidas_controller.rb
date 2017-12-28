@@ -150,7 +150,7 @@ class CiclovidasController < ApplicationController
         redirect_to root_path
         flash[:danger] = "Voce não possui itens cadastrados ainda!"
       else
-        @ciclovida = Ciclovida.find(params[:id])
+        @ciclovida = Ciclovida.where(cliente_id: current_user.cliente_id).first
       end
       
     end
