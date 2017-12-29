@@ -134,7 +134,9 @@
         <% array_lote = [] %>
        <% @estoquefinal.each do |estoquefinal| %>
          <% itemid = estoquefinal.item_id %>
-         <% array_itens << estoquefinal.item.item_name + " lote " + estoquefinal.lote %>
+         <% if estoquefinal != nil %>
+           <% array_itens << estoquefinal.item.item_name + " lote " + estoquefinal.lote %>
+         <% end %>
        <% end %>
       labels: <%= raw array_itens.to_json %>,
       
