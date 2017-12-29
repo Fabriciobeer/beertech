@@ -80,7 +80,7 @@
                       <% ciclovidaitens.each do |item| %>
                         <% barril << ciclovidacliente.where(item: item).first %>
                       <% end %>
-                      <% if barril.any? %>
+                      <% if barril.any? && (barril[0] != nil) %>
                         <% barril.each do |ciclovida| %>
                           <% tempo_no_cliente = (Time.current.day - ciclovida.updated_at.day).to_i %>
                             <% if ciclovida.localizacao != "Estoque final. Sujo e vazio" && ciclovida.localizacao != "Estoque de barris. Limpo e vazio" && ciclovida.localizacao != "Câmara fria. Cheio" && tempo_no_cliente >= 6 %>
