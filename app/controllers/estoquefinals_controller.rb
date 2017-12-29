@@ -26,9 +26,9 @@ class EstoquefinalsController < ApplicationController
       @estoquefinalentrada = Estoquefinal.where(cliente_id: current_user.cliente_id, atualizar: "Entrada").order(updated_at: :desc)
       @estoquefinalsaida = Estoquefinal.where(cliente_id: current_user.cliente_id, atualizar: "Saída").order(updated_at: :desc)
       @estoquefinalitens.each do |item|
-        <% if item[1] != 0 %>
+        if item[1] != 0
           @estoquefinal << @estoquefinalcliente.where(item: item[0], lote: item[1]).first
-        <% end %>
+        end
       end
     else
       redirect_to root_path
