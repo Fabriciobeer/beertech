@@ -75,7 +75,7 @@
                     </thead>
                     <tbody>
                       <% ciclovidacliente = Ciclovida.where(cliente_id: current_user.cliente_id).order(updated_at: :desc) %>
-                      <% ciclovidaitens = Ciclovida.uniq.pluck(:item_id) %>
+                      <% ciclovidaitens = Ciclovida.where(cliente_id: current_user.cliente_id).uniq.pluck(:item_id) %>
                       <% barril = [] %>
                       <% ciclovidaitens.each do |item| %>
                         <% barril << ciclovidacliente.where(item: item).first %>
